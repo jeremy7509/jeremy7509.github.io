@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UXR Case Study · Google AdMob &amp; AI Workflows | Jeremy Mendel, Ph.D.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-primary: #0B66C3;
+      --blue-accent: #1A73E8;
+      --blue-header-bar: #0B66C3;
+      --callout-bg: #EDF2F7;
+      --card-bg: #F8FAFC;
+      --card-border: #DCE3EC;
+      --table-header-bg: #E8F0F8;
+      --table-border: #D5DEE8;
+      --text-primary: #111827;
+      --text-secondary: #1F2937;
+      --text-muted: #64748B;
+      --purple-accent: #6B21A8;
+      --purple-bg: #F3ECF9;
+      --purple-border: #D8B4FE;
+      --before-border: #4B5563;
+      --before-bg: #F1F5F9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #0b0f17;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      padding: 24px 16px 64px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    /* Toolbar for screen viewing & portfolio navigation */
+    .deck-toolbar {
+      width: 1280px;
+      max-width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: #F8FAFC;
+      font-size: 14px;
+      padding: 12px 18px;
+      background: rgba(19, 27, 43, 0.92);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 10px;
+      position: sticky;
+      top: 12px;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #fbbf24;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13.5px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      transition: background 0.15s ease;
+    }
+
+    .back-link:hover {
+      background: rgba(245, 158, 11, 0.22);
+    }
+
+    .deck-toolbar .toolbar-title {
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: #e2e8f0;
+    }
+
+    .deck-toolbar .toolbar-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .project-switcher {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin-right: 8px;
+    }
+
+    .project-switcher a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .project-switcher a:hover {
+      color: #ffffff;
+      border-color: rgba(245, 158, 11, 0.45);
+    }
+
+    .project-switcher a.current {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .deck-toolbar button {
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+      background: var(--blue-accent);
+      border: none;
+      border-radius: 6px;
+      padding: 7px 14px;
+      cursor: pointer;
+    }
+
+    .deck-toolbar button:hover {
+      background: #1557B0;
+    }
+
+    /* 16:9 Slide Container (1280 x 720) */
+    .slide {
+      width: 1280px;
+      height: 720px;
+      background: #FFFFFF;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 36px 48px 24px 48px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+      overflow: hidden;
+      page-break-after: always;
+      break-after: page;
+    }
+
+    /* Top full-bleed blue bar */
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: var(--blue-header-bar);
+    }
+
+    /* Eyebrow & Title */
+    .slide-eyebrow {
+      font-size: 13.5px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--blue-primary);
+      margin-bottom: 6px;
+    }
+
+    .slide-title {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      line-height: 1.16;
+      margin-bottom: 16px;
+    }
+
+    /* Top & Bottom Callout Boxes */
+    .callout-box {
+      background: var(--callout-bg);
+      border-left: 5px solid var(--blue-primary);
+      padding: 13px 20px;
+      font-size: 15.6px;
+      line-height: 1.44;
+      color: var(--text-primary);
+    }
+
+    .callout-box strong {
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .callout-top {
+      margin-bottom: 20px;
+    }
+
+    .callout-bottom {
+      margin-top: auto;
+      margin-bottom: 10px;
+    }
+
+    /* Three-Card Grid (Slides 01, 02, 04, 06) */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      flex: 1;
+      margin-bottom: 20px;
+      min-height: 0;
+    }
+
+    /* Two-Card Split Grid (Slide 05) */
+    .cards-grid-two {
+      display: grid;
+      grid-template-columns: 1.14fr 0.86fr;
+      gap: 24px;
+      flex: 1;
+      margin-bottom: 20px;
+      min-height: 0;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-top: 5px solid var(--blue-primary);
+      padding: 22px 24px 20px 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-kicker {
+      font-size: 12.8px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--blue-primary);
+      margin-bottom: 8px;
+    }
+
+    .card-heading {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.015em;
+      margin-bottom: 18px;
+      line-height: 1.22;
+    }
+
+    .card-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .card-bullets li {
+      position: relative;
+      padding-left: 22px;
+      font-size: 15.6px;
+      line-height: 1.44;
+      color: var(--text-secondary);
+    }
+
+    .card-bullets li strong {
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .card-bullets li::before {
+      content: "•";
+      position: absolute;
+      left: 3px;
+      top: 0;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    /* Slide 03: Methods Table */
+    .methods-table-wrap {
+      flex: 1;
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .methods-table {
+      width: 100%;
+      height: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--table-border);
+      table-layout: fixed;
+    }
+
+    .methods-table th {
+      background: var(--table-header-bg);
+      color: var(--blue-primary);
+      font-size: 14.8px;
+      font-weight: 800;
+      text-align: left;
+      padding: 11px 16px;
+      border: 1px solid var(--table-border);
+    }
+
+    .methods-table td {
+      padding: 12px 16px;
+      font-size: 14.6px;
+      line-height: 1.38;
+      color: var(--text-secondary);
+      border: 1px solid var(--table-border);
+      vertical-align: middle;
+    }
+
+    .methods-table tbody tr:nth-child(odd) td {
+      background: #FFFFFF;
+    }
+
+    .methods-table tbody tr:nth-child(even) td {
+      background: #F8FAFC;
+    }
+
+    .methods-table td.method-family {
+      font-weight: 800;
+      color: var(--text-primary);
+      font-size: 14.8px;
+    }
+
+    /* Slide 05: Right Card Example Boxes */
+    .example-stack {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      flex: 1;
+      margin-top: 6px;
+    }
+
+    .example-box {
+      padding: 13px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .example-box.before-box {
+      background: var(--before-bg);
+      border: 1px solid #CBD5E1;
+      border-left: 6px solid var(--before-border);
+    }
+
+    .example-box.after-box {
+      background: var(--purple-bg);
+      border: 1px solid var(--purple-border);
+      border-left: 6px solid var(--purple-accent);
+    }
+
+    .example-box.metric-box {
+      background: var(--callout-bg);
+      border: 1px solid #DCE3EC;
+      border-left: 6px solid var(--blue-primary);
+      font-size: 14.5px;
+      line-height: 1.42;
+      color: var(--text-secondary);
+    }
+
+    .example-box.metric-box strong {
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .example-label {
+      font-size: 11.8px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .before-box .example-label {
+      color: #374151;
+    }
+
+    .after-box .example-label {
+      color: var(--purple-accent);
+    }
+
+    .example-quote {
+      font-size: 14.8px;
+      line-height: 1.42;
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    /* Slide Footer */
+    .slide-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    @media print {
+      @page {
+        size: 13.333in 7.5in;
+        margin: 0;
+      }
+      body {
+        background: #FFFFFF;
+        padding: 0;
+        gap: 0;
+      }
+      .deck-toolbar {
+        display: none !important;
+      }
+      .slide {
+        box-shadow: none;
+        margin: 0;
+        page-break-after: always;
+        break-after: page;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="deck-toolbar" aria-label="Case study navigation">
+    <div class="toolbar-left">
+      <a href="index.html#featured-work" class="back-link">&larr; Back to Portfolio</a>
+      <div class="toolbar-title">Case Study 4 of 4 &middot; Google AdMob UX Research (6 Slides)</div>
+    </div>
+    <div class="toolbar-actions">
+      <div class="project-switcher" aria-label="Other case studies">
+        <a href="ai-workflows.html">01 AI Workflows</a>
+        <a href="cross-os-rcs.html">02 Cross-OS &amp; RCS</a>
+        <a href="benchmarking-premiumness.html">03 Benchmarking</a>
+        <a href="admob.html" class="current">04 Google AdMob</a>
+      </div>
+      <button type="button" onclick="window.print()">Print / Save PDF</button>
+    </div>
+  </nav>
+
+  <!-- ==================== SLIDE 01 ==================== -->
+  <section class="slide" id="slide-01">
+    <div class="slide-eyebrow">01 CASE STUDY OVERVIEW &rsaquo; GOOGLE ADMOB UX RESEARCH (2014 TO 2017)</div>
+    <h1 class="slide-title">Rebuilding Google AdMob around how app businesses run</h1>
+
+    <div class="callout-box callout-top">
+      <strong>Overview:</strong> As AdMob's sole UX researcher from 2014 to 2017, I built the research program from zero and led 24 mixed-methods studies across Ad Network Mediation (Mediation Groups) and a Material Design web console redesign for 1M+ mobile apps.
+    </div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-kicker">01 &middot; 0-TO-1 RESEARCH FOUNDATION</div>
+        <h2 class="card-heading">Built a 1,267-publisher panel</h2>
+        <ul class="card-bullets">
+          <li>AdMob had operated for two years without dedicated UX research or a participant panel when teams started planning two multi-quarter rewrites.</li>
+          <li>I launched a 3-week homepage banner inside AdMob that opted in 1,267 verified publishers across indie developers and multi-app gaming studios.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">02 &middot; EARLY ROADMAP PIVOTS</div>
+        <h2 class="card-heading">Led 24 mixed-methods studies</h2>
+        <ul class="card-bullets">
+          <li>Studio interviews and a 2-day design sprint pivoted ad mediation from static "Shared Stacks" to rule-based Mediation Groups before engineers wrote code.</li>
+          <li>Card sorts, navigation prototypes, and a 107-publisher tree test proved the new app-centric console caused no performance regression.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">03 &middot; GOOGLE I/O 2017 IMPACT</div>
+        <h2 class="card-heading">Migrated 300,000+ publishers</h2>
+        <ul class="card-bullets">
+          <li>The team launched both overhauls together at Google I/O in May 2017 and cut core monetization workflows to 1 to 2 steps.</li>
+          <li>Leadership built usability and satisfaction targets into launch gates, and our panel and 3-step information architecture (IA) method scaled to Firebase, AdSense, and DoubleClick.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout-box callout-bottom">
+      <strong>Takeaway:</strong> Building a 1,267-publisher panel and leading 24 mixed-methods studies redirected two flagship AdMob roadmaps before engineering build and scaled to 300,000+ publishers.
+    </div>
+
+    <div class="slide-footer">UXR CASE STUDY &middot; ADMOB</div>
+  </section>
+
+  <!-- ==================== SLIDE 02 ==================== -->
+  <section class="slide" id="slide-02">
+    <div class="slide-eyebrow">02 PROBLEM &amp; STAKEHOLDERS &rsaquo; AMBIGUITY &amp; AUDIENCES</div>
+    <h1 class="slide-title">Why the right product direction was initially unclear</h1>
+
+    <div class="callout-box callout-top">
+      <strong>Context:</strong> After two years without dedicated UX research or a participant panel, teams saw large studios choosing rival mediators and new developers dropping off during onboarding. Conflicting internal assumptions made the right fix unclear.
+    </div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-kicker">AD MEDIATION AMBIGUITY</div>
+        <h2 class="card-heading">Mediation scale vs. price control</h2>
+        <ul class="card-bullets">
+          <li>Ad mediation routes each ad slot through a ranked "waterfall" of ad networks, yet AdMob tied waterfalls 1-to-1 to ad units (ad placements).</li>
+          <li>Studios updated thousands of country price floors (minimum bids) by hand. Teams assumed one static shared waterfall ("Shared Stacks") would scale and missed why studios distrusted auto-bidding.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">WEB CONSOLE AMBIGUITY</div>
+        <h2 class="card-heading">Org-chart tabs vs. app workflows</h2>
+        <ul class="card-bullets">
+          <li>Legacy "Monetize / Promote / Analyze" tabs mirrored Google's internal teams rather than developer tasks.</li>
+          <li>Leaders worried that switching to an app-centric layout would trigger change aversion and slow down experienced publishers.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">CROSS-FUNCTIONAL ALIGNMENT</div>
+        <h2 class="card-heading">Who needed user evidence</h2>
+        <ul class="card-bullets">
+          <li>Product managers, UX designers, engineers, and sales specialists needed workflow evidence to prioritize two multi-quarter rewrites.</li>
+          <li>Partner teams across Firebase, AdSense, and DoubleClick needed shared user data to align roadmaps for Director and VP reviews.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout-box callout-bottom">
+      <strong>Takeaway:</strong> Without user research, internal assumptions drove both roadmaps. Teams needed empirical evidence on how studios managed ad pricing and daily app workflows.
+    </div>
+
+    <div class="slide-footer">UXR CASE STUDY &middot; ADMOB</div>
+  </section>
+
+  <!-- ==================== SLIDE 03 ==================== -->
+  <section class="slide" id="slide-03">
+    <div class="slide-eyebrow">03 MIXED-METHODS PROGRAM &rsaquo; 1,267-PUBLISHER PANEL &amp; 24 STUDIES</div>
+    <h1 class="slide-title">Building a mixed-methods research program from scratch</h1>
+
+    <div class="callout-box callout-top">
+      <strong>0-to-1 Research Panel:</strong> I launched a 3-week homepage banner inside AdMob that opted in 1,267 verified publishers across indie developers and multi-app gaming studios. That panel let us pair rapid qualitative iteration with statistical benchmarks before major engineering commitments.
+    </div>
+
+    <div class="methods-table-wrap">
+      <table class="methods-table">
+        <thead>
+          <tr>
+            <th style="width: 17%;">Stage</th>
+            <th style="width: 27%;">Core methods</th>
+            <th style="width: 26%;">Sample and scope</th>
+            <th style="width: 30%;">Product decisions shaped</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="method-family">1. Discovery</td>
+            <td>Stakeholder synthesis, data-backed personas, contextual studio interviews</td>
+            <td>24 internal partners; 8 publisher personas; multi-app studios</td>
+            <td>Mapped custom ad-server setups, ad vs. in-app purchase balance, and 5 UX design principles</td>
+          </tr>
+          <tr>
+            <td class="method-family">2. Ideation sprints</td>
+            <td>Facilitated 2-day design sprints and expert cognitive walkthroughs</td>
+            <td>Product managers, UX designers, engineers, and specialists</td>
+            <td>Replaced Shared Stacks with rule-based Mediation Groups and stress-tested pre-launch flows</td>
+          </tr>
+          <tr>
+            <td class="method-family">3. Prototyping</td>
+            <td>Open card sort (23 tasks) and 10+ remote 1:1 concept and prototype rounds</td>
+            <td>N = 26 analyzed card sorts; 4 to 8 publishers per usability round</td>
+            <td>Shaped app-centric navigation, refined inline floor editing, and caught a group-priority misconception</td>
+          </tr>
+          <tr>
+            <td class="method-family">4. Quantitative scale</td>
+            <td>Between-subjects tree test, multi-language System Usability Scale (SUS), in-product survey</td>
+            <td>Tree test (N = 107); SUS (N = 134 AdMob, N = 264 AdSense); satisfaction (N = 2,054)</td>
+            <td>Confirmed first-use navigation parity, uncovered Asia-Pacific (APAC) localization gaps, and set targets</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout-box callout-bottom">
+      <strong>Takeaway:</strong> Recruiting a 1,267-publisher panel in 3 weeks connected early field discovery and design sprints with pre-launch statistical benchmarks across 24 studies.
+    </div>
+
+    <div class="slide-footer">UXR CASE STUDY &middot; ADMOB</div>
+  </section>
+
+  <!-- ==================== SLIDE 04 ==================== -->
+  <section class="slide" id="slide-04">
+    <div class="slide-eyebrow">04 AD MEDIATION PIVOTS &rsaquo; FROM SHARED STACKS TO MEDIATION GROUPS</div>
+    <h1 class="slide-title">Pivoting ad mediation from static stacks to flexible rules</h1>
+
+    <div class="callout-box callout-top">
+      <strong>Early Architecture Pivot:</strong> Early interviews with multi-app studios disproved the core assumption behind AdMob's initial mediation proposal before engineers wrote production code. Follow-up usability rounds caught a priority-order misconception shared by all 14 tested publishers.
+    </div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-kicker">01 &middot; ARCHITECTURE PIVOT</div>
+        <h2 class="card-heading">Replaced "Shared Stacks"</h2>
+        <ul class="card-bullets">
+          <li>Interviewed multi-app studios did not share identical price floors across apps because payouts shifted by audience, format, country, placement, OS, and screen size.</li>
+          <li>I facilitated a 2-day cross-functional design sprint that pivoted the roadmap from static stacks to rule-based Mediation Groups.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">02 &middot; TRAFFIC SAFEGUARD</div>
+        <h2 class="card-heading">Prevented traffic drops (14 of 14)</h2>
+        <ul class="card-bullets">
+          <li>Across two usability studies, all 14 tested publishers assumed unfilled requests in Group 1 would pass down to Group 2.</li>
+          <li>To prevent unmatched ad requests from going unfilled, we restored a catch-all Default Mediation Group, clarified priority rules, and added guided tours.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">03 &middot; WORKFLOW &amp; PRICING</div>
+        <h2 class="card-heading">Eliminated custom hacks</h2>
+        <ul class="card-bullets">
+          <li>Studios wired custom SDK events to call one network at multiple price tiers, distrusted "black-box" auto-bidding, and saw repeated Rewarded Video ads (opt-in video for in-app rewards) hurt retention.</li>
+          <li>Engineering responded by shipping multi-call waterfalls (up to 3x), inline floor editing with reference prices, and video frequency caps.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout-box callout-bottom">
+      <strong>Takeaway:</strong> Field and usability studies redirected mediation architecture before production coding and protected publisher revenue from unmatched-traffic drops.
+    </div>
+
+    <div class="slide-footer">UXR CASE STUDY &middot; ADMOB</div>
+  </section>
+
+  <!-- ==================== SLIDE 05 ==================== -->
+  <section class="slide" id="slide-05">
+    <div class="slide-eyebrow">05 PROBLEM 4 OF 4 &rsaquo; AI DRAFTS WEREN'T RESEARCH-GRADE</div>
+    <h1 class="slide-title">Keeping AI-drafted research readouts clear and accurate</h1>
+
+    <div class="callout-box callout-top">
+      <strong>The problem:</strong> AI drafts reports in seconds, but the drafts often overstate findings, report statistics inconsistently, and bury the takeaway. On one survey readout, nearly half my follow-up requests went to fixing those issues.
+    </div>
+
+    <div class="cards-grid-two">
+      <div class="card">
+        <div class="card-kicker" style="margin-bottom: 14px;">WHAT I DID</div>
+        <ul class="card-bullets" style="gap: 16px;">
+          <li><strong>Turned my editing habits into shared standards.</strong> I studied my own revision history and turned 25 recurring fixes into rules that two shared tools apply automatically.</li>
+          <li><strong>Writing that reads like a senior researcher's.</strong> The writing tool ties each claim to the data and population studied, rewrites in plain active language, and ends with a fresh-eyes review.</li>
+          <li><strong>Statistics anyone can read.</strong> Results state confidence in plain words, show effect sizes alongside, and flag groups too small to trust.</li>
+          <li><strong>Colleagues' comments stay intact.</strong> Updates to shared documents keep reviewers' feedback in place.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker" style="margin-bottom: 10px;">WHAT CHANGED &middot; ILLUSTRATIVE EXAMPLE</div>
+        <div class="example-stack">
+          <div class="example-box before-box">
+            <div class="example-label">BEFORE &middot; TYPICAL AI DRAFT</div>
+            <div class="example-quote">"Users overwhelmingly prefer the new design, proving it will boost engagement."</div>
+          </div>
+
+          <div class="example-box after-box">
+            <div class="example-label">AFTER &middot; WITH SHARED STANDARDS</div>
+            <div class="example-quote">"More users preferred the new design. We're confident at the 95% level (p &lt; .05), but the effect is small, so a follow-up test should check engagement."</div>
+          </div>
+
+          <div class="example-box metric-box">
+            <div><strong>36 to 18 words:</strong> My own edits halved the average summary sentence on a strategy paper. The tools now apply those same rules.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout-box callout-bottom">
+      <strong>Takeaway:</strong> Shared writing and statistics tools automate the fixes that once took nearly half my follow-up requests and give junior researchers and partners senior standards by default.
+    </div>
+
+    <div class="slide-footer">UXR CASE STUDY &middot; AI WORKFLOWS</div>
+  </section>
+
+  <!-- ==================== SLIDE 06 ==================== -->
+  <section class="slide" id="slide-06">
+    <div class="slide-eyebrow">06 GOOGLE I/O 2017 OUTCOMES &rsaquo; SHIPPED IMPACT &amp; ORG SCALE</div>
+    <h1 class="slide-title">Shipped Google I/O outcomes and org-wide research impact</h1>
+
+    <div class="callout-box callout-top">
+      <strong>Google I/O May 2017 Launch:</strong> Google launched the redesigned Material Design AdMob console and Mediation Groups together at Google I/O in May 2017 and migrated 300,000+ publishers. Both the shipped features and the research systems scaled across Google's publisher tools.
+    </div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-kicker">SHIPPED AT GOOGLE I/O 2017</div>
+        <h2 class="card-heading">Shipped product overhaul</h2>
+        <ul class="card-bullets">
+          <li>The team launched rule-based Mediation Groups, up to 3 calls per network, inline country floor editing with reference prices, and Rewarded Video caps.</li>
+          <li>We also shipped unified Mediation and Revenue reports plus app dashboards pairing ad earnings with Firebase retention and average revenue per user (ARPU).</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">WORKFLOW EFFICIENCY</div>
+        <h2 class="card-heading">Shorter core workflows</h2>
+        <ul class="card-bullets">
+          <li>The redesign cut first ad-unit creation from 2 steps to 1, Ad Review and Blocking from 4 steps to 1 to 2, and Payments from 3 steps to 1.</li>
+          <li>It also reduced multi-network price updates from manual per-unit edits to 1 to 2 steps and simplified signup and onboarding checklists.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">SCALED UX GOVERNANCE</div>
+        <h2 class="card-heading">Launch standards &amp; org reuse</h2>
+        <ul class="card-bullets">
+          <li>Leadership built SUS targets (&gt; 68.0 industry average) and monthly satisfaction tracking into launch scorecards and started APAC localization audits from our multi-language benchmarks.</li>
+          <li>I shared the 1,267-publisher panel with Analytics and Firebase and coached AdSense and DoubleClick on our 3-step IA method (card sort, navigation prototype, and tree test).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout-box callout-bottom">
+      <strong>Takeaway:</strong> The 24-study program cut core workflows to 1 to 2 steps for 300,000+ publishers and established reusable panels, benchmarks, and IA methods across Google.
+    </div>
+
+    <div class="slide-footer">UXR CASE STUDY &middot; ADMOB</div>
+  </section>
+
+</body>
+</html>

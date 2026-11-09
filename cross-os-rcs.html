@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UXR Case Study · Google Messages — Cross-OS Messaging &amp; Scaling RCS | Jeremy Mendel, Ph.D.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-primary: #0B66C3;
+      --blue-accent: #1A73E8;
+      --blue-header-bar: #0B66C3;
+      --callout-bg: #EDF2F7;
+      --card-bg: #F8FAFC;
+      --card-border: #DCE3EC;
+      --table-header-bg: #E8F0F8;
+      --table-border: #D5DEE8;
+      --text-primary: #111827;
+      --text-secondary: #1F2937;
+      --text-muted: #64748B;
+      --purple-bar: #6B21A8;
+      --gray-bar: #9CA3AF;
+      --green-bar: #1E8E3E;
+      --red-note: #991B1B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #0b0f17;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      padding: 24px 16px 64px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    /* Toolbar for screen viewing & portfolio navigation */
+    .deck-toolbar {
+      width: 1280px;
+      max-width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: #F8FAFC;
+      font-size: 14px;
+      padding: 12px 18px;
+      background: rgba(19, 27, 43, 0.92);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 10px;
+      position: sticky;
+      top: 12px;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #fbbf24;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13.5px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      transition: background 0.15s ease;
+    }
+
+    .back-link:hover {
+      background: rgba(245, 158, 11, 0.22);
+    }
+
+    .deck-toolbar .toolbar-title {
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: #e2e8f0;
+    }
+
+    .deck-toolbar .toolbar-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .project-switcher {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin-right: 8px;
+    }
+
+    .project-switcher a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .project-switcher a:hover {
+      color: #ffffff;
+      border-color: rgba(245, 158, 11, 0.45);
+    }
+
+    .project-switcher a.current {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .deck-toolbar button {
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+      background: var(--blue-accent);
+      border: none;
+      border-radius: 6px;
+      padding: 7px 14px;
+      cursor: pointer;
+    }
+
+    .deck-toolbar button:hover {
+      background: #1557B0;
+    }
+
+    /* 16:9 Slide Container (1280 x 720) */
+    .slide {
+      width: 1280px;
+      height: 720px;
+      background: #FFFFFF;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 36px 48px 24px 48px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+      overflow: hidden;
+      page-break-after: always;
+      break-after: page;
+    }
+
+    /* Top full-bleed blue bar */
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: var(--blue-header-bar);
+    }
+
+    /* Eyebrow & Title */
+    .slide-eyebrow {
+      font-size: 13.5px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--blue-primary);
+      margin-bottom: 6px;
+    }
+
+    .slide-title {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      line-height: 1.16;
+      margin-bottom: 16px;
+    }
+
+    /* Top & Bottom Callout Boxes */
+    .callout-box {
+      background: var(--callout-bg);
+      border-left: 5px solid var(--blue-primary);
+      padding: 13px 20px;
+      font-size: 15.6px;
+      line-height: 1.44;
+      color: var(--text-primary);
+    }
+
+    .callout-box strong {
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .callout-top {
+      margin-bottom: 20px;
+    }
+
+    .callout-bottom {
+      margin-top: auto;
+      margin-bottom: 10px;
+    }
+
+    /* Three-Card Grid (Slides 00, 01, 03) */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      flex: 1;
+      margin-bottom: 20px;
+      min-height: 0;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-top: 5px solid var(--blue-primary);
+      padding: 22px 24px 20px 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-kicker {
+      font-size: 12.8px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--blue-primary);
+      margin-bottom: 8px;
+    }
+
+    .card-heading {
+      font-size: 21px;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      margin-bottom: 18px;
+      line-height: 1.22;
+    }
+
+    .card-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-bullets li {
+      position: relative;
+      padding-left: 22px;
+      font-size: 15.8px;
+      line-height: 1.45;
+      color: var(--text-secondary);
+    }
+
+    .card-bullets li::before {
+      content: "•";
+      position: absolute;
+      left: 3px;
+      top: 0;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    /* Slide 02: Methods Table */
+    .methods-table-wrap {
+      flex: 1;
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .methods-table {
+      width: 100%;
+      height: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--table-border);
+      table-layout: fixed;
+    }
+
+    .methods-table th {
+      background: var(--table-header-bg);
+      color: var(--blue-primary);
+      font-size: 14.8px;
+      font-weight: 800;
+      text-align: left;
+      padding: 11px 16px;
+      border: 1px solid var(--table-border);
+    }
+
+    .methods-table td {
+      padding: 12px 16px;
+      font-size: 14.6px;
+      line-height: 1.38;
+      color: var(--text-secondary);
+      border: 1px solid var(--table-border);
+      vertical-align: middle;
+    }
+
+    .methods-table tbody tr:nth-child(odd) td {
+      background: #FFFFFF;
+    }
+
+    .methods-table tbody tr:nth-child(even) td {
+      background: #F8FAFC;
+    }
+
+    .methods-table td.method-family {
+      font-weight: 800;
+      color: var(--text-primary);
+      font-size: 14.8px;
+    }
+
+    /* Slide 04: Split Two-Column Layout */
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1.03fr 0.97fr;
+      gap: 30px;
+      flex: 1;
+      min-height: 0;
+      margin-bottom: 6px;
+    }
+
+    .left-narrative {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 0;
+    }
+
+    .narrative-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .narrative-para {
+      font-size: 14.9px;
+      line-height: 1.42;
+      color: var(--text-secondary);
+    }
+
+    .narrative-para strong {
+      color: var(--text-primary);
+      font-weight: 800;
+    }
+
+    /* Right Column Charts on Slide 04 */
+    .right-charts {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-top: 2px;
+      min-height: 0;
+    }
+
+    .chart-block {
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chart-title {
+      font-size: 13.8px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .chart-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9.8px;
+      color: var(--text-muted);
+      margin-bottom: 7px;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .chart-legend {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      white-space: nowrap;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .legend-swatch {
+      width: 8px;
+      height: 8px;
+      display: inline-block;
+      border-radius: 1px;
+    }
+
+    /* Chart 1 rows */
+    .chart1-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      border-left: 1.5px solid #94A3B8;
+      border-bottom: 1px solid #CBD5E1;
+      margin-left: 174px;
+      padding-top: 2px;
+      padding-bottom: 6px;
+    }
+
+    .chart1-row {
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-height: 30px;
+    }
+
+    .chart-row-label {
+      position: absolute;
+      right: calc(100% + 10px);
+      width: 168px;
+      text-align: right;
+      font-size: 10.4px;
+      line-height: 1.18;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .chart-row-label .sub {
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .bars-stack {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      position: relative;
+    }
+
+    .bar-track {
+      display: flex;
+      align-items: center;
+      height: 10.5px;
+      position: relative;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .baseline-dash {
+      position: absolute;
+      top: 0;
+      bottom: -2px;
+      border-left: 1.5px dashed #64748B;
+      pointer-events: none;
+    }
+
+    .bar-note {
+      width: 142px;
+      padding-left: 10px;
+      font-size: 10.3px;
+      line-height: 1.18;
+      font-weight: 800;
+      color: var(--text-primary);
+      flex-shrink: 0;
+    }
+
+    .bar-note.warn {
+      color: var(--red-note);
+      font-weight: 700;
+    }
+
+    /* Chart 2: Zero-centered MaxDiff */
+    .chart2-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-left: 174px;
+      position: relative;
+      padding-top: 2px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #CBD5E1;
+    }
+
+    .chart2-row {
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-height: 28px;
+    }
+
+    .diverging-plot {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 33% 67%;
+      align-items: center;
+      position: relative;
+    }
+
+    .diverging-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+      padding-right: 1px;
+    }
+
+    .diverging-right {
+      display: flex;
+      align-items: center;
+      border-left: 1.5px solid #64748B;
+      padding-left: 1px;
+      min-height: 24px;
+    }
+
+    .diverging-bars-pair {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .bar-left {
+      height: 10px;
+      border-radius: 2px 0 0 2px;
+    }
+
+    .bar-right {
+      height: 10px;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .inline-tag {
+      font-size: 10.3px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-left: 8px;
+      white-space: nowrap;
+    }
+
+    .inline-tag.muted {
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .zero-axis-caption {
+      margin-left: 174px;
+      font-size: 10px;
+      color: var(--text-muted);
+      padding-left: calc(33% - 42px);
+      margin-top: 3px;
+    }
+
+    .charts-footnote {
+      font-size: 12.2px;
+      line-height: 1.35;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* Slide Footer */
+    .slide-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    @media print {
+      @page {
+        size: 13.333in 7.5in;
+        margin: 0;
+      }
+      body {
+        background: #FFFFFF;
+        padding: 0;
+        gap: 0;
+      }
+      .deck-toolbar {
+        display: none !important;
+      }
+      .slide {
+        box-shadow: none;
+        margin: 0;
+        page-break-after: always;
+        break-after: page;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="deck-toolbar" aria-label="Case study navigation">
+    <div class="toolbar-left">
+      <a href="index.html#featured-work" class="back-link">&larr; Back to Portfolio</a>
+      <div class="toolbar-title">Case Study 2 of 4 &middot; Google Messages Cross-OS &amp; RCS (5 Slides)</div>
+    </div>
+    <div class="toolbar-actions">
+      <div class="project-switcher" aria-label="Other case studies">
+        <a href="ai-workflows.html">01 AI Workflows</a>
+        <a href="cross-os-rcs.html" class="current">02 Cross-OS &amp; RCS</a>
+        <a href="benchmarking-premiumness.html">03 Benchmarking</a>
+        <a href="admob.html">04 Google AdMob</a>
+      </div>
+      <button type="button" onclick="window.print()">Print / Save PDF</button>
+    </div>
+  </nav>
+
+  <!-- ==================== SLIDE 00 ==================== -->
+  <section class="slide" id="slide-00">
+    <div class="slide-eyebrow">00 PROGRAM OVERVIEW &rsaquo; GOOGLE MESSAGES UXR (2019 TO 2026)</div>
+    <h1 class="slide-title">Solving the cross-OS messaging divide and scaling RCS</h1>
+
+    <div class="callout-box callout-top">
+      <strong>Program overview:</strong> Since May 2019, I built and managed the Google Messages UX research team from 1 to 5+ researchers and led or directed 25+ mixed-methods studies on RCS and cross-OS group messaging. Our work progressed across three phases, from early SMS/MMS bridges to 1B+ Android RCS users and iOS 18 interoperability.
+    </div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-kicker">01 &middot; DIAGNOSE &amp; BRIDGE (2019–2021)</div>
+        <h2 class="card-heading">Cross-OS pain &amp; lock-in</h2>
+        <ul class="card-bullets">
+          <li>Separated teen bubble-color myths from concrete MMS media and group-thread bugs across US iPhone and Android users.</li>
+          <li>Priced iMessage lock-in against smartphone hardware via conjoint and shipped cross-OS video link and reaction bridges.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">02 &middot; SCALE TO 1B+ USERS (2021–2024)</div>
+        <h2 class="card-heading">OEM defaults &amp; iOS 18 interop</h2>
+        <ul class="card-bullets">
+          <li>Backed US carrier and global Samsung default deals, fixed OEM share-sheet icon confusion, and cut low-return chat hub bets.</li>
+          <li>Drove the "RCS chats" rebrand and default setup past 1B+ active users and shaped the advocacy behind Apple adopting RCS in iOS 18.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">03 &middot; EVALUATE &amp; NEXT WAVE (2024–2026)</div>
+        <h2 class="card-heading">Post-launch impact &amp; parity</h2>
+        <ul class="card-bullets">
+          <li>Evaluated real-world iOS 18 RCS impact across a US cross-OS groups survey, dual-OS interviews, and MaxDiff prioritization.</li>
+          <li>Broke down in-product satisfaction by phone brand and user mix to separate cross-OS delivery gains from app-switcher headwinds.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout-box callout-bottom">
+      <strong>Takeaway:</strong> Across seven years, 25+ mixed-methods studies guided cross-OS product bridges, global Android RCS scale past 1B+ users, and the post-iOS-18 parity roadmap.
+    </div>
+
+    <div class="slide-footer">UXR CASE STUDY &middot; GOOGLE MESSAGES</div>
+  </section>
+
+  <!-- ==================== SLIDE 01 ==================== -->
+  <section class="slide" id="slide-01">
+    <div class="slide-eyebrow">01 PROBLEM, LOCK-IN &amp; STAKEHOLDERS &rsaquo; AMBIGUITY, CONJOINT &amp; AUDIENCES</div>
+    <h1 class="slide-title">Why the cross-OS messaging problem was initially unclear</h1>
+
+    <div class="callout-box callout-top">
+      <strong>Context:</strong> Teams knew mixed Android and iPhone group chats felt broken in the US. However, leaders lacked data on which failures mattered to everyday adults, how messaging lock-in compared to hardware upgrades, or why satisfaction softened after iOS 18 RCS launched.
+    </div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-kicker">PUBLIC MYTHS VS. MMS BUGS</div>
+        <h2 class="card-heading">Status tropes hid protocol bugs</h2>
+        <ul class="card-bullets">
+          <li>Public commentary blamed teen bubble-color stigma, yet roughly half of surveyed US iPhone users did not even know what a green bubble meant.</li>
+          <li>Teams needed a prioritized view of compressed videos, split replies, static group rosters, and raw reaction texts to focus engineering.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">ECOSYSTEM LOCK-IN &amp; SCALE</div>
+        <h2 class="card-heading">Rivaled 3 hardware upgrades</h2>
+        <ul class="card-bullets">
+          <li>In our US conjoint study, iPhone users valued iMessage and FaceTime on par with combining upgrades in display resolution, storage, and battery life.</li>
+          <li>US Android users split close contacts evenly across iOS and Android (leaving half on SMS/MMS). Dual OEM preloads and opt-in hurdles also slowed RCS scale.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">FIVE DECISION AUDIENCES</div>
+        <h2 class="card-heading">Who needed empirical answers</h2>
+        <ul class="card-bullets">
+          <li>Messages Product, Engineering, UX, and cross-product media partners needed clear feature priorities and sign-in-free cross-OS video playback.</li>
+          <li>Director- and VP-level leaders, Business Development, OEM/carrier partners, and #GetTheMessage marketing needed data to align defaults and advocacy.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout-box callout-bottom">
+      <strong>Takeaway:</strong> We aligned five decision audiences by pricing iMessage lock-in against hardware upgrades and separating social myths from protocol and onboarding bugs.
+    </div>
+
+    <div class="slide-footer">UXR CASE STUDY &middot; GOOGLE MESSAGES</div>
+  </section>
+
+  <!-- ==================== SLIDE 02 ==================== -->
+  <section class="slide" id="slide-02">
+    <div class="slide-eyebrow">02 MIXED-METHODS PROGRAM &rsaquo; 13 METHODS ACROSS 25+ STUDIES</div>
+    <h1 class="slide-title">Combining 13 research methods across a 7-year program</h1>
+
+    <div class="callout-box callout-top">
+      <strong>Program and team leadership:</strong> I built and managed the Messages UXR team from 1 to 5+ researchers and led or directed 25+ studies from 2019 to 2026. We combined 13 quantitative, experimental, and qualitative methods to diagnose MMS bugs, price iMessage lock-in, test OEM share sheets, and explain post-launch satisfaction trends.
+    </div>
+
+    <div class="methods-table-wrap">
+      <table class="methods-table">
+        <thead>
+          <tr>
+            <th style="width: 19%;">Method family</th>
+            <th style="width: 28%;">Core research methods</th>
+            <th style="width: 24%;">Audience and scope</th>
+            <th style="width: 29%;">Strategic decisions shaped</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="method-family">1. Choice &amp; priority modeling</td>
+            <td>Choice-based conjoint, MaxDiff prioritization, feature-reach modeling, frequency-by-importance surveys</td>
+            <td>Multi-wave national US and international smartphone panels</td>
+            <td>Priced iMessage lock-in against hardware specs and ranked multi-contact sharing and post-iOS-18 parity over cosmetics</td>
+          </tr>
+          <tr>
+            <td class="method-family">2. Survey experiments &amp; panels</td>
+            <td>Lightweight between-subjects A/B experiments, longitudinal replication &amp; cross-OS group surveys</td>
+            <td>Hundreds to thousands of US iOS and Android users per study</td>
+            <td>Diagnosed OEM sharing-menu icon confusion in days and tracked multi-year exclusion and post-launch group gains</td>
+          </tr>
+          <tr>
+            <td class="method-family">3. Driver &amp; user-mix analysis</td>
+            <td>Regression-based key driver analysis and in-product surveys broken down by phone brand and user mix</td>
+            <td>Competitive benchmarks and multi-year in-product survey responses</td>
+            <td>Guided reliability and safety roadmaps and separated post-iOS-18 delivery gains from reluctant app-switcher waves</td>
+          </tr>
+          <tr>
+            <td class="method-family">4. Dual-OS qual &amp; recipient UX</td>
+            <td>Sponsor-blind iPhone/Android/teen interviews, cross-OS recipient tests, lab usability, 20+ teardowns, fieldwork</td>
+            <td>US iOS and Android group users, older adults, and 7-country field studies</td>
+            <td>Shaped sign-in-free video links, tapback translations, intact SMS-to-RCS group history, and Scheduled Send</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout-box callout-bottom">
+      <strong>Takeaway:</strong> Our team connected early discovery to post-launch evaluation by pairing choice modeling, rapid survey experiments, dual-OS interviews, and user-mix analysis.
+    </div>
+
+    <div class="slide-footer">UXR CASE STUDY &middot; GOOGLE MESSAGES</div>
+  </section>
+
+  <!-- ==================== SLIDE 03 ==================== -->
+  <section class="slide" id="slide-03">
+    <div class="slide-eyebrow">03 SHIPPED IMPACT (2019–2024) &rsaquo; 1B+ USERS &amp; IOS 18 INTEROP</div>
+    <h1 class="slide-title">What shipped to scale Android RCS and reach iOS 18 interop</h1>
+
+    <div class="callout-box callout-top">
+      <strong>From bridges to ecosystem scale:</strong> Insights from the 2019–2024 studies guided five years of Google Messages launches and backed global OEM and carrier default agreements past 1B+ monthly active users. These findings also shaped the advocacy that contributed to Apple adopting RCS in iOS 18.
+    </div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-kicker">01 &middot; CROSS-OS PRODUCT BRIDGES</div>
+        <h2 class="card-heading">Shipped features &amp; focus</h2>
+        <ul class="card-bullets">
+          <li>Recipient link and reaction studies drove RCS emoji reactions, translated iMessage tapbacks, sign-in-free cloud video links, multi-contact sharing, and Scheduled Send.</li>
+          <li>Readiness interviews showed thread splits caused churn, so engineers kept SMS history inside upgraded iOS 18 RCS groups and cut chat hub and forced theme bets.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">02 &middot; TEAM, OEM &amp; CARRIER SCALE</div>
+        <h2 class="card-heading">Scaled team &amp; OEM defaults</h2>
+        <ul class="card-bullets">
+          <li>I grew and managed Messages UXR from 1 to 5+ researchers. Conjoint findings also justified broader engineering staffing and US carrier default deals.</li>
+          <li>Sharing-menu A/B tests and lock-in data helped win Samsung and global OEM default agreements, fix share sheets, and sunset duplicate preloaded apps.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">03 &middot; BRAND, AUTO-ON &amp; INTEROP</div>
+        <h2 class="card-heading">1B+ users &amp; iOS 18 advocacy</h2>
+        <ul class="card-bullets">
+          <li>Naming and onboarding studies drove the global "RCS chats" rebrand and default auto-on setup to help Android RCS surpass 1B+ monthly active users.</li>
+          <li>Cross-OS media, contact-mix, and social friction findings influenced VPs, SVPs, Samsung executives, and #GetTheMessage ahead of Apple iOS 18 RCS.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout-box callout-bottom">
+      <strong>Takeaway:</strong> Shipped cross-OS bridges, global OEM and carrier defaults past 1B+ users, and empirical advocacy helped pave the way for iOS 18 RCS interoperability.
+    </div>
+
+    <div class="slide-footer">UXR CASE STUDY &middot; GOOGLE MESSAGES</div>
+  </section>
+
+  <!-- ==================== SLIDE 04 ==================== -->
+  <section class="slide" id="slide-04">
+    <div class="slide-eyebrow">04 POST-LAUNCH EVALUATION (2024–2026) &rsaquo; IMPACT &amp; NEXT ROADMAP</div>
+    <h1 class="slide-title">Evaluating post-iOS-18 impact and setting the next roadmap</h1>
+
+    <div class="split-layout">
+      <!-- Left Column: Narrative + Takeaway -->
+      <div class="left-narrative">
+        <div class="narrative-list">
+          <p class="narrative-para">
+            <strong>Three-part post-launch program:</strong> After Apple launched RCS in iOS 18 (Sep 2024), I evaluated real-world impact through a US cross-OS groups survey, dual-OS interviews, and multi-year in-product satisfaction tracking.
+          </p>
+          <p class="narrative-para">
+            <strong>Cross-OS groups survey measured gains and gaps:</strong> Nearly half of surveyed US adults said mixed iPhone and Android group chats improved over the prior year, especially photo and video sharing. Still, most hit occasional delivery or SMS fallback issues, and under half of Android users knew they could name a cross-OS group.
+          </p>
+          <p class="narrative-para">
+            <strong>Interviews and MaxDiff defined next-wave parity:</strong> Dual-OS interviewees said sharper videos, typing indicators, and read receipts "closed the gap," and several mixed-OS families moved back from WhatsApp to default texting. In follow-up MaxDiff modeling, users selected two-way media quality, cross-OS video calling, and inline replies as most important far more often than bubble colors.
+          </p>
+          <p class="narrative-para">
+            <strong>User-mix analysis resolved a top-line metric puzzle:</strong> In-product surveys showed fewer failed sends and more issue-free sessions across all Android brands. Breaking down scores by phone brand and user mix showed a slight US satisfaction dip came from reluctant users moved from discontinued apps. We focused the roadmap on parity, fallback recovery, and entry-level phone speed.
+          </p>
+        </div>
+
+        <div class="callout-box" style="margin-top: 10px;">
+          <strong>Takeaway:</strong> Post-launch research confirmed cross-OS delivery gains across every Android phone brand and separated out app-switcher headwinds.
+        </div>
+      </div>
+
+      <!-- Right Column: Two Charts + Caption -->
+      <div class="right-charts">
+        <!-- Top Chart -->
+        <div class="chart-block">
+          <div class="chart-title">Breaking down user mix separated delivery gains from switcher headwinds</div>
+          <div class="chart-meta-row">
+            <span>Directional comparison across in-product and cross-OS group surveys</span>
+            <div class="chart-legend">
+              <span class="legend-item"><span class="legend-swatch" style="background: var(--gray-bar);"></span>Pre-iOS 18 RCS baseline</span>
+              <span class="legend-item"><span class="legend-swatch" style="background: var(--purple-bar);"></span>Post-iOS 18 RCS period</span>
+            </div>
+          </div>
+
+          <div class="chart1-rows">
+            <div class="chart1-row">
+              <div class="chart-row-label">Message delivery reliability<br><span class="sub">(fewer failed sends)</span></div>
+              <div class="bars-stack">
+                <div class="bar-track"><div class="bar-fill" style="width: 60%; background: var(--gray-bar);"></div></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 95%; background: var(--purple-bar);"></div></div>
+              </div>
+              <div class="bar-note">Significant reduction<br>in failed message sends</div>
+            </div>
+
+            <div class="chart1-row">
+              <div class="chart-row-label">Issue-free messaging<br><span class="sub">sessions (all Android OEMs)</span></div>
+              <div class="bars-stack">
+                <div class="bar-track"><div class="bar-fill" style="width: 58%; background: var(--gray-bar);"></div></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 90%; background: var(--purple-bar);"></div></div>
+              </div>
+              <div class="bar-note">Significant increase<br>across all device brands</div>
+            </div>
+
+            <div class="chart1-row">
+              <div class="chart-row-label">Cross-OS media &amp; group<br><span class="sub">experience (survey &amp; qual)</span></div>
+              <div class="bars-stack">
+                <div class="bar-track"><div class="bar-fill" style="width: 56%; background: var(--gray-bar);"></div></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 92%; background: var(--purple-bar);"></div></div>
+              </div>
+              <div class="bar-note">Substantial improvement<br>in photo &amp; video sharing</div>
+            </div>
+
+            <div class="chart1-row">
+              <div class="chart-row-label">Headline US satisfaction<br><span class="sub">(confounded by app switchers)</span></div>
+              <div class="bars-stack">
+                <div class="bar-track"><div class="bar-fill" style="width: 58%; background: var(--gray-bar);"></div></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 52%; background: var(--purple-bar);"></div></div>
+                <div class="baseline-dash" style="left: 58%;"></div>
+              </div>
+              <div class="bar-note warn">Slight dip from forced<br>legacy app migrations</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Chart -->
+        <div class="chart-block" style="margin-top: 8px;">
+          <div class="chart-title">Users prioritized functional cross-OS parity over bubble color changes</div>
+          <div class="chart-meta-row">
+            <span>Zero-centered MaxDiff relative importance (above 0 = higher priority)</span>
+            <div class="chart-legend">
+              <span class="legend-item"><span class="legend-swatch" style="background: var(--blue-accent);"></span>iPhone users</span>
+              <span class="legend-item"><span class="legend-swatch" style="background: var(--green-bar);"></span>Android users</span>
+            </div>
+          </div>
+
+          <div class="chart2-rows">
+            <div class="chart2-row">
+              <div class="chart-row-label">Two-way high-quality<br><span class="sub">photo &amp; video sharing</span></div>
+              <div class="diverging-plot">
+                <div class="diverging-left"></div>
+                <div class="diverging-right">
+                  <div class="diverging-bars-pair" style="width: 72%;">
+                    <div class="bar-right" style="width: 91%; background: var(--blue-accent);"></div>
+                    <div class="bar-right" style="width: 100%; background: var(--green-bar);"></div>
+                  </div>
+                  <span class="inline-tag">#1 priority</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart2-row">
+              <div class="chart-row-label">Integrated cross-OS<br><span class="sub">video calling in messaging</span></div>
+              <div class="diverging-plot">
+                <div class="diverging-left"></div>
+                <div class="diverging-right">
+                  <div class="diverging-bars-pair" style="width: 47%;">
+                    <div class="bar-right" style="width: 100%; background: var(--blue-accent);"></div>
+                    <div class="bar-right" style="width: 89%; background: var(--green-bar);"></div>
+                  </div>
+                  <span class="inline-tag">Runner-up priority</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart2-row">
+              <div class="chart-row-label">Cross-OS group parity<br><span class="sub">(inline replies &amp; reactions)</span></div>
+              <div class="diverging-plot">
+                <div class="diverging-left"></div>
+                <div class="diverging-right">
+                  <div class="diverging-bars-pair" style="width: 31%;">
+                    <div class="bar-right" style="width: 100%; background: var(--blue-accent);"></div>
+                    <div class="bar-right" style="width: 90%; background: var(--green-bar);"></div>
+                  </div>
+                  <span class="inline-tag">Top-3 priority</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart2-row">
+              <div class="chart-row-label">Message edit, delete &amp;<br><span class="sub">real-time location sharing</span></div>
+              <div class="diverging-plot">
+                <div class="diverging-left"></div>
+                <div class="diverging-right">
+                  <div class="diverging-bars-pair" style="width: 22%;">
+                    <div class="bar-right" style="width: 100%; background: var(--blue-accent);"></div>
+                    <div class="bar-right" style="width: 82%; background: var(--green-bar);"></div>
+                  </div>
+                  <span class="inline-tag">High utility</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart2-row">
+              <div class="chart-row-label">Bubble color changes<br><span class="sub">(3rd color or higher contrast)</span></div>
+              <div class="diverging-plot">
+                <div class="diverging-left">
+                  <div class="bar-left" style="width: 82%; background: var(--blue-accent);"></div>
+                  <div class="bar-left" style="width: 75%; background: var(--green-bar);"></div>
+                </div>
+                <div class="diverging-right">
+                  <span class="inline-tag muted">Lowest priority</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="zero-axis-caption">Average priority (0)</div>
+        </div>
+
+        <div class="charts-footnote">
+          Top: Directional synthesis of in-product reliability tracking, satisfaction broken down by phone brand and user mix, and US cross-OS group surveys. Bottom: US post-launch MaxDiff feature priority tiers across iPhone and Android users.
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">UXR CASE STUDY &middot; GOOGLE MESSAGES</div>
+  </section>
+
+</body>
+</html>

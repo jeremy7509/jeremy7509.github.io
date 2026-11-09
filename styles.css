@@ -486,6 +486,16 @@
     border-radius: var(--radius-md);
   }
 
+  .impact-item-link {
+    transition: border-color var(--transition-base), transform var(--transition-base), background-color var(--transition-base);
+
+    &:hover {
+      border-color: var(--border-hover);
+      background-color: rgba(30, 41, 59, 0.65);
+      transform: translateX(3px);
+    }
+  }
+
   .impact-metric-badge {
     font-family: var(--font-mono);
     font-size: 0.75rem;
@@ -561,6 +571,12 @@
     line-height: 1.2;
   }
 
+  .section-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.975rem;
+    margin-block-start: 0.45rem;
+  }
+
   /* Filter Controls */
   .filter-controls {
     display: inline-flex;
@@ -600,6 +616,22 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
     gap: 1.5rem;
+  }
+
+  .projects-grid-two {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
+  }
+
+  .project-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-block-start: auto;
+  }
+
+  .project-title a:hover {
+    color: var(--accent-primary);
   }
 
   .project-card {
@@ -954,6 +986,8 @@
 
   .modal-footer {
     display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
     justify-content: flex-end;
   }
 

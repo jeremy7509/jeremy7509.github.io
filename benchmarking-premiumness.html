@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UXR Case Study · Google Messages — Annual Benchmarking &amp; Premiumness | Jeremy Mendel, Ph.D.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-primary: #0B66C3;
+      --blue-dark: #0A4D96;
+      --blue-accent: #1A73E8;
+      --blue-header-bar: #0B66C3;
+      --callout-bg: #EDF2F7;
+      --card-bg: #F8FAFC;
+      --card-border: #DCE3EC;
+      --table-header-bg: #E8F0F8;
+      --table-border: #D5DEE8;
+      --text-primary: #111827;
+      --text-secondary: #1F2937;
+      --text-muted: #64748B;
+      --gray-bar: #9CA3AF;
+      --green-bar: #1E8E3E;
+      --slate-bar-1: #52637A;
+      --slate-bar-2: #5A6B82;
+      --slate-bar-3: #64748B;
+      --slate-bar-4: #78879B;
+      --slate-bar-5: #94A3B8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #0b0f17;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      padding: 24px 16px 64px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    /* Toolbar for screen viewing & portfolio navigation */
+    .deck-toolbar {
+      width: 1280px;
+      max-width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: #F8FAFC;
+      font-size: 14px;
+      padding: 12px 18px;
+      background: rgba(19, 27, 43, 0.92);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 10px;
+      position: sticky;
+      top: 12px;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #fbbf24;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13.5px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      transition: background 0.15s ease;
+    }
+
+    .back-link:hover {
+      background: rgba(245, 158, 11, 0.22);
+    }
+
+    .deck-toolbar .toolbar-title {
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: #e2e8f0;
+    }
+
+    .deck-toolbar .toolbar-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .project-switcher {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin-right: 8px;
+    }
+
+    .project-switcher a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .project-switcher a:hover {
+      color: #ffffff;
+      border-color: rgba(245, 158, 11, 0.45);
+    }
+
+    .project-switcher a.current {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .deck-toolbar button {
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+      background: var(--blue-accent);
+      border: none;
+      border-radius: 6px;
+      padding: 7px 14px;
+      cursor: pointer;
+    }
+
+    .deck-toolbar button:hover {
+      background: #1557B0;
+    }
+
+    /* 16:9 Slide Container (1280 x 720) */
+    .slide {
+      width: 1280px;
+      height: 720px;
+      background: #FFFFFF;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 36px 48px 24px 48px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+      overflow: hidden;
+      page-break-after: always;
+      break-after: page;
+    }
+
+    /* Top full-bleed blue bar */
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: var(--blue-header-bar);
+    }
+
+    /* Eyebrow & Title */
+    .slide-eyebrow {
+      font-size: 13.5px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--blue-primary);
+      margin-bottom: 6px;
+    }
+
+    .slide-title {
+      font-size: 31.5px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      line-height: 1.16;
+      margin-bottom: 16px;
+    }
+
+    /* Top & Bottom Callout Boxes */
+    .callout-box {
+      background: var(--callout-bg);
+      border-left: 5px solid var(--blue-primary);
+      padding: 13px 20px;
+      font-size: 15.5px;
+      line-height: 1.44;
+      color: var(--text-primary);
+    }
+
+    .callout-box strong {
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .callout-top {
+      margin-bottom: 20px;
+    }
+
+    .callout-bottom {
+      margin-top: auto;
+      margin-bottom: 10px;
+    }
+
+    /* Three-Card Grid (Slides 00, 01, 04) */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      flex: 1;
+      margin-bottom: 20px;
+      min-height: 0;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-top: 5px solid var(--blue-primary);
+      padding: 22px 24px 20px 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-kicker {
+      font-size: 12.6px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--blue-primary);
+      margin-bottom: 8px;
+    }
+
+    .card-heading {
+      font-size: 18.8px;
+      font-weight: 800;
+      color: var(--blue-dark);
+      letter-spacing: -0.015em;
+      margin-bottom: 18px;
+      line-height: 1.22;
+    }
+
+    .card-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-bullets li {
+      position: relative;
+      padding-left: 22px;
+      font-size: 15.6px;
+      line-height: 1.44;
+      color: var(--text-secondary);
+    }
+
+    .card-bullets li::before {
+      content: "•";
+      position: absolute;
+      left: 3px;
+      top: 0;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    /* Slide 02: Methods Table */
+    .methods-table-wrap {
+      flex: 1;
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .methods-table {
+      width: 100%;
+      height: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--table-border);
+      table-layout: fixed;
+    }
+
+    .methods-table th {
+      background: var(--table-header-bg);
+      color: var(--blue-primary);
+      font-size: 14.4px;
+      font-weight: 800;
+      text-align: left;
+      padding: 9px 15px;
+      border: 1px solid var(--table-border);
+    }
+
+    .methods-table td {
+      padding: 9px 15px;
+      font-size: 14px;
+      line-height: 1.34;
+      color: var(--text-secondary);
+      border: 1px solid var(--table-border);
+      vertical-align: middle;
+    }
+
+    .methods-table tbody tr:nth-child(odd) td {
+      background: #FFFFFF;
+    }
+
+    .methods-table tbody tr:nth-child(even) td {
+      background: #F8FAFC;
+    }
+
+    .methods-table td.method-family {
+      font-weight: 800;
+      color: var(--text-primary);
+      font-size: 14.2px;
+    }
+
+    /* Slide 03: Split Two-Column Layout */
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1.03fr 0.97fr;
+      gap: 30px;
+      flex: 1;
+      min-height: 0;
+      margin-bottom: 6px;
+    }
+
+    .left-narrative {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 0;
+    }
+
+    .narrative-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .narrative-para {
+      font-size: 14.9px;
+      line-height: 1.42;
+      color: var(--text-secondary);
+    }
+
+    .narrative-para strong {
+      color: var(--text-primary);
+      font-weight: 800;
+    }
+
+    /* Right Column Charts on Slide 03 */
+    .right-charts {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-top: 2px;
+      min-height: 0;
+    }
+
+    .chart-block {
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chart-title {
+      font-size: 13.8px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .chart-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .chart-legend {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      white-space: nowrap;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .legend-swatch {
+      width: 8px;
+      height: 8px;
+      display: inline-block;
+      border-radius: 1px;
+    }
+
+    /* Chart 1 rows (3 grouped rows) */
+    .chart1-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border-left: 1.5px solid #94A3B8;
+      border-bottom: 1px solid #CBD5E1;
+      margin-left: 148px;
+      padding-top: 4px;
+      padding-bottom: 8px;
+    }
+
+    .chart1-row {
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-height: 32px;
+    }
+
+    .chart-row-label {
+      position: absolute;
+      right: calc(100% + 10px);
+      width: 142px;
+      text-align: right;
+      font-size: 10.4px;
+      line-height: 1.2;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .bars-stack {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      position: relative;
+    }
+
+    .bar-track {
+      display: flex;
+      align-items: center;
+      height: 12px;
+      position: relative;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .bar-note {
+      width: 184px;
+      padding-left: 10px;
+      font-size: 10.3px;
+      line-height: 1.2;
+      font-weight: 800;
+      color: var(--text-primary);
+      flex-shrink: 0;
+    }
+
+    /* Chart 2: Driver hierarchy (5 single-bar rows) */
+    .chart2-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-left: 148px;
+      position: relative;
+      padding-top: 4px;
+      padding-bottom: 8px;
+      border-left: 1.5px solid #94A3B8;
+      border-bottom: 1px solid #CBD5E1;
+    }
+
+    .chart2-row {
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-height: 25px;
+    }
+
+    .single-bar-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .single-bar {
+      height: 15px;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .inline-tag {
+      font-size: 10.4px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-left: 8px;
+      white-space: nowrap;
+    }
+
+    .inline-tag.supporting {
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .inline-tag.muted {
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .axis-caption {
+      margin-left: 148px;
+      font-size: 10px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    .charts-footnote {
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--text-secondary);
+      margin-top: 6px;
+    }
+
+    /* Slide Footer */
+    .slide-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    @media print {
+      @page {
+        size: 13.333in 7.5in;
+        margin: 0;
+      }
+      body {
+        background: #FFFFFF;
+        padding: 0;
+        gap: 0;
+      }
+      .deck-toolbar {
+        display: none !important;
+      }
+      .slide {
+        box-shadow: none;
+        margin: 0;
+        page-break-after: always;
+        break-after: page;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="deck-toolbar" aria-label="Case study navigation">
+    <div class="toolbar-left">
+      <a href="index.html#featured-work" class="back-link">&larr; Back to Portfolio</a>
+      <div class="toolbar-title">Case Study 3 of 4 &middot; Benchmarking &amp; Premiumness (6 Slides)</div>
+    </div>
+    <div class="toolbar-actions">
+      <div class="project-switcher" aria-label="Other case studies">
+        <a href="ai-workflows.html">01 AI Workflows</a>
+        <a href="cross-os-rcs.html">02 Cross-OS &amp; RCS</a>
+        <a href="benchmarking-premiumness.html" class="current">03 Benchmarking</a>
+        <a href="admob.html">04 Google AdMob</a>
+      </div>
+      <button type="button" onclick="window.print()">Print / Save PDF</button>
+    </div>
+  </nav>
+
+  <!-- ==================== SLIDE 00 ==================== -->
+  <section class="slide" id="slide-00">
+    <div class="slide-eyebrow">00 PROGRAM OVERVIEW &rsaquo; ANNUAL BENCHMARKING &amp; PREMIUMNESS (2023 TO 2026)</div>
+    <h1 class="slide-title">Measuring competitive quality and premiumness in Google Messages</h1>
+
+    <div class="callout-box callout-top">
+      <strong>My role and scope:</strong> I manage a 5+ person UX research team and six-figure annual vendor budget for Google Messages (1B+ monthly users). In 2023, I architected our annual competitive benchmark, coached an early-career researcher into owning multi-wave execution, and expanded the program into "premiumness" and org-wide governance.
+    </div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-kicker">01 &middot; WHY IT MATTERED</div>
+        <h2 class="card-heading">Existing signals misled teams</h2>
+        <ul class="card-bullets">
+          <li>In-app surveys missed competitors, and public app-store stars skewed toward vocal switchers when carriers and phone makers retired old texting apps.</li>
+          <li>Even after narrowing our US satisfaction gap with market leaders, teams could not explain why users still saw rival apps as more "premium."</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">02 &middot; MIXED-METHODS PROGRAM</div>
+        <h2 class="card-heading">Rigorous panels + mentorship</h2>
+        <ul class="card-bullets">
+          <li>Paired annual US panels and UK/India studies with dual app-icon checks, standardized usability scales, and think-aloud question audits.</li>
+          <li>Coached an early-career researcher to run regression-based key driver models for satisfaction and a 4-domain model that isolated what makes an app feel premium.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">03 &middot; IMPACT &amp; CULTURE SHIFT</div>
+        <h2 class="card-heading">OKRs, pushback &amp; governance</h2>
+        <ul class="card-bullets">
+          <li>Helped set Engineering and UX craft OKRs aimed at closing rival gaps, prevented a reactive redesign during rating dips, and tempered AI-badge hype.</li>
+          <li>Authored a 3-part governance plan linking annual benchmarks to co-owned flagship launch surveys and bias-safe leadership scorecards.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout-box callout-bottom">
+      <strong>Takeaway:</strong> Across three annual waves (2023–2026), this program replaced noisy rating swings and parity checklists with validated quality drivers and year-round craft accountability.
+    </div>
+
+    <div class="slide-footer">JEREMY MENDEL, PH.D. &middot; UXR CASE STUDY</div>
+  </section>
+
+  <!-- ==================== SLIDE 01 ==================== -->
+  <section class="slide" id="slide-01">
+    <div class="slide-eyebrow">01 WHY IT MATTERS &rsaquo; THREE BLIND SPOTS IN EXISTING PRODUCT SIGNALS</div>
+    <h1 class="slide-title">Why internal surveys and app-store ratings misled product teams</h1>
+
+    <div class="callout-box callout-top">
+      <strong>The problem:</strong> Before 2023, Google Messages served 1B+ monthly users yet lacked an unbiased way to compare satisfaction against competing apps, rank quality levers, or explain why satisfied users still viewed rival apps as superior.
+    </div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-kicker">BLIND SPOT 1 &middot; NO RIVAL BASELINE</div>
+        <h2 class="card-heading">In-app surveys missed rivals</h2>
+        <ul class="card-bullets">
+          <li>In-app prompts only sampled active Google Messages users, so leaders could not see everyday standing against iMessage, WhatsApp, and Messenger.</li>
+          <li>Teams also lacked baselines in the UK and India, where perceived photo/video carrier fees and business-message clutter shaped habits differently.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">BLIND SPOT 2 &middot; BIASED STAR RATINGS</div>
+        <h2 class="card-heading">App-store dips raised alarms</h2>
+        <ul class="card-bullets">
+          <li>Public app-store stars reflected a tiny, self-selected vocal minority rather than everyday smartphone owners.</li>
+          <li>When carriers and phone makers retired legacy texting apps and moved reluctant users over, public stars dipped and risked triggering a reactive redesign.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">BLIND SPOT 3 &middot; SATISFACTION CEILING</div>
+        <h2 class="card-heading">"Works fine" was not "premium"</h2>
+        <ul class="card-bullets">
+          <li>After modern Android-to-iPhone texting, or Rich Communication Services (RCS), launched in iOS 18, our US satisfaction gap narrowed yet rivals led on superiority.</li>
+          <li>Software teams needed a concise messaging driver model rather than a lengthy hardware-focused device brand tracker.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout-box callout-bottom">
+      <strong>Takeaway:</strong> Competitive panel benchmarks and driver modeling gave Product, Engineering, and UX leaders an unbiased market yardstick that app-store stars and delivery logs could not provide.
+    </div>
+
+    <div class="slide-footer">JEREMY MENDEL, PH.D. &middot; UXR CASE STUDY</div>
+  </section>
+
+  <!-- ==================== SLIDE 02 ==================== -->
+  <section class="slide" id="slide-02">
+    <div class="slide-eyebrow">02 RESEARCH PROGRAM &rsaquo; PSYCHOMETRIC RIGOR, VALIDITY CHECKS &amp; TEAM COACHING</div>
+    <h1 class="slide-title">Building a repeatable mixed-methods benchmark through mentorship</h1>
+
+    <div class="callout-box callout-top">
+      <strong>Architecture and mentorship:</strong> I designed the methodology and coached an early-career mixed-methods researcher across three annual US waves (2023–2026), UK and India benchmarks, and cross-device evaluations. Together we turned a complex quantitative study into a repeatable team capability.
+    </div>
+
+    <div class="methods-table-wrap">
+      <table class="methods-table">
+        <thead>
+          <tr>
+            <th style="width: 21%;">Program component</th>
+            <th style="width: 28%;">How we built rigor</th>
+            <th style="width: 22%;">Scope and cadence</th>
+            <th style="width: 29%;">Validity risk it solved</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="method-family">1. Competitive panels &amp; subgroup cuts</td>
+            <td>Representative panels with start-and-end visual app-icon checks, sliced by flagship vs. budget phones, switchers, and early tech adopters</td>
+            <td>Thousands of clean US responses per wave + US, UK, and India studies</td>
+            <td>Prevented app-name confusion across chat apps and powered hardware and switcher comparisons</td>
+          </tr>
+          <tr>
+            <td class="method-family">2. Standardized scales &amp; think-aloud audits</td>
+            <td>Top-2 Box satisfaction (top 2 of 5 pts) and 7-item USE scale (usefulness, satisfaction, ease of use), audited via think-alouds</td>
+            <td>Think-aloud interviews every wave + longitudinal item tracker</td>
+            <td>Verified "safe and secure" measured encryption rather than spam, and split mixed speed/reliability items</td>
+          </tr>
+          <tr>
+            <td class="method-family">3. Satisfaction &amp; tenure driver models</td>
+            <td>Regression-based key driver analysis across privacy/security, speed, reliability, spam, visual appeal, and app tenure</td>
+            <td>Annual US waves sliced by app tenure, phone brand, and price tier</td>
+            <td>Ranked what lifts overall satisfaction and separated temporary switcher friction from product bugs</td>
+          </tr>
+          <tr>
+            <td class="method-family">4. Four-domain premiumness model</td>
+            <td>Distilled a broad device-brand study into concise attributes across 4 UX domains predicting a validated 2-item premiumness score</td>
+            <td>Added in 2026 alongside annual satisfaction tracking and multi-device qual</td>
+            <td>Controlled for halo overlap across traits to isolate prestige drivers in a brief, repeatable survey</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout-box callout-bottom">
+      <strong>Takeaway:</strong> Pairing standardized usability scales and dual icon checks with wave-by-wave think-aloud audits and regression driver models kept multi-year tracking valid and concise.
+    </div>
+
+    <div class="slide-footer">JEREMY MENDEL, PH.D. &middot; UXR CASE STUDY</div>
+  </section>
+
+  <!-- ==================== SLIDE 03 ==================== -->
+  <section class="slide" id="slide-03">
+    <div class="slide-eyebrow">03 CORE DISCOVERIES &rsaquo; SATISFACTION DRIVERS VS. PREMIUMNESS MODELING</div>
+    <h1 class="slide-title">What we found: Satisfaction narrowed, but premiumness needed new levers</h1>
+
+    <div class="split-layout">
+      <!-- Left Column: Narrative + Takeaway -->
+      <div class="left-narrative">
+        <div class="narrative-list">
+          <p class="narrative-para">
+            <strong>Privacy clarity and visual appeal outweighed spam:</strong> US Wave 1 (2023) showed perceived privacy and security drove satisfaction far more strongly than spam filtering, where Google Messages already led. When added in Wave 2 (2024), visual appeal ranked #2 and exposed our widest rival gap.
+          </p>
+          <p class="narrative-para">
+            <strong>An adaptation curve explained app-store swings:</strong> Wave 2 showed overall US satisfaction remained stable despite volatile app-store stars. Dissatisfaction came from temporary change aversion among newly migrated users and faded after acclimation.
+          </p>
+          <p class="narrative-para">
+            <strong>Closing the satisfaction gap did not build prestige:</strong> By early 2026, our US Top-2 Box satisfaction gap with market leaders narrowed substantially post-iOS 18 RCS, and RCS awareness rose meaningfully. Even so, satisfaction weakly predicted whether users called their app "premium."
+          </p>
+          <p class="narrative-para">
+            <strong>Beauty (#1) and uniqueness (#2) beat AI hype:</strong> Driver modeling showed "beautifully designed" (#1) and "unique features" (#2) led premium perception, followed by care, visual appeal, and customization. Core texting and group reliability acted as table stakes, and standalone "AI features" ranked last.
+          </p>
+        </div>
+
+        <div class="callout-box" style="margin-top: 10px;">
+          <strong>Takeaway:</strong> Reliability and privacy protect baseline satisfaction, whereas earning "premium" status requires standout visual craft and differentiated capabilities.
+        </div>
+      </div>
+
+      <!-- Right Column: Two Charts + Caption -->
+      <div class="right-charts">
+        <!-- Top Chart -->
+        <div class="chart-block">
+          <div class="chart-title">Satisfaction gap narrowed, yet a wider superiority gap remained</div>
+          <div class="chart-meta-row">
+            <span>Illustrative directional index vs. market leader</span>
+            <div class="chart-legend">
+              <span class="legend-item"><span class="legend-swatch" style="background: var(--gray-bar);"></span>Market-leader benchmark</span>
+              <span class="legend-item"><span class="legend-swatch" style="background: var(--green-bar);"></span>Google Messages</span>
+            </div>
+          </div>
+
+          <div class="chart1-rows">
+            <div class="chart1-row">
+              <div class="chart-row-label">2023–2024 overall<br>satisfaction (Top-2 Box)</div>
+              <div class="bars-stack">
+                <div class="bar-track"><div class="bar-fill" style="width: 96%; background: var(--gray-bar);"></div></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 80%; background: var(--green-bar);"></div></div>
+              </div>
+              <div class="bar-note">Solid baseline before full<br>iOS 18 RCS rollout</div>
+            </div>
+
+            <div class="chart1-row">
+              <div class="chart-row-label">Early-2026 overall<br>satisfaction (Top-2 Box)</div>
+              <div class="bars-stack">
+                <div class="bar-track"><div class="bar-fill" style="width: 96%; background: var(--gray-bar);"></div></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 90%; background: var(--green-bar);"></div></div>
+              </div>
+              <div class="bar-note">Satisfaction gap narrowed<br>substantially post-iOS 18 RCS</div>
+            </div>
+
+            <div class="chart1-row">
+              <div class="chart-row-label">Early-2026 perceived<br>superiority / premium</div>
+              <div class="bars-stack">
+                <div class="bar-track"><div class="bar-fill" style="width: 96%; background: var(--gray-bar);"></div></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 51%; background: var(--green-bar);"></div></div>
+              </div>
+              <div class="bar-note">Much wider prestige gap<br>("works fine" is not "premium")</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Chart -->
+        <div class="chart-block" style="margin-top: 8px;">
+          <div class="chart-title">Visual beauty and unique features led premiumness, while AI ranked last</div>
+          <div class="chart-meta-row" style="margin-bottom: 6px;">
+            <span>Illustrative driver hierarchy across modeled messaging UX attributes</span>
+          </div>
+
+          <div class="chart2-rows">
+            <div class="chart2-row">
+              <div class="chart-row-label">Beautifully designed<br>app experience</div>
+              <div class="single-bar-wrap">
+                <div class="single-bar" style="width: 62%; background: var(--slate-bar-1);"></div>
+                <span class="inline-tag">#1 driver (craftsmanship)</span>
+              </div>
+            </div>
+
+            <div class="chart2-row">
+              <div class="chart-row-label">Unique features<br>other apps lack</div>
+              <div class="single-bar-wrap">
+                <div class="single-bar" style="width: 51%; background: var(--slate-bar-2);"></div>
+                <span class="inline-tag">#2 driver (differentiation)</span>
+              </div>
+            </div>
+
+            <div class="chart2-row">
+              <div class="chart-row-label">Perceived care, appeal,<br>and customization</div>
+              <div class="single-bar-wrap">
+                <div class="single-bar" style="width: 38%; background: var(--slate-bar-3);"></div>
+                <span class="inline-tag supporting">Supporting craft tier</span>
+              </div>
+            </div>
+
+            <div class="chart2-row">
+              <div class="chart-row-label">Cross-platform group and<br>texting reliability</div>
+              <div class="single-bar-wrap">
+                <div class="single-bar" style="width: 21%; background: var(--slate-bar-4);"></div>
+                <span class="inline-tag muted">Table stakes (prevents churn)</span>
+              </div>
+            </div>
+
+            <div class="chart2-row">
+              <div class="chart-row-label">Standalone AI features<br>and tools</div>
+              <div class="single-bar-wrap">
+                <div class="single-bar" style="width: 11%; background: var(--slate-bar-5);"></div>
+                <span class="inline-tag muted">Lowest-ranked driver</span>
+              </div>
+            </div>
+          </div>
+          <div class="axis-caption">Illustrative relative importance in predicting perceived premiumness</div>
+        </div>
+
+        <div class="charts-footnote">
+          Top: Illustrative directional comparison relative to market-leader benchmark (conceptual index; not raw survey %). Bottom: Illustrative relative importance across modeled messaging UX attributes predicting the validated two-item premiumness score.
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">JEREMY MENDEL, PH.D. &middot; UXR CASE STUDY</div>
+  </section>
+
+  <!-- ==================== SLIDE 04 ==================== -->
+  <section class="slide" id="slide-04">
+    <div class="slide-eyebrow">04 DECISIONS &amp; IMPACT &rsaquo; OKRS, STAKEHOLDER PUSHBACK &amp; MULTI-YEAR STRATEGY</div>
+    <h1 class="slide-title">How findings shaped OKRs, roadmaps, and stakeholder pushback</h1>
+
+    <div class="callout-box callout-top">
+      <strong>From readout to decisions:</strong> Across annual planning cycles, I worked with Product, Engineering, and UX Directors and VPs to translate benchmark waves into quality OKRs, push back on reactive pivots, and refocus multi-year strategy.
+    </div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-kicker">01 &middot; OKRS &amp; TRUST CLARITY</div>
+        <h2 class="card-heading">Set craft OKRs &amp; encryption cues</h2>
+        <ul class="card-bullets">
+          <li>Driver models helped set Engineering and UX craft OKRs aimed at closing rival satisfaction and perceived-quality gaps.</li>
+          <li>Showing privacy outweighed spam sparked sponsor-blind encryption studies that uncovered lock-icon myths and guided clearer security cues.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">02 &middot; RESISTED REACTIVE PIVOTS</div>
+        <h2 class="card-heading">Stayed the course &amp; localized RCS</h2>
+        <ul class="card-bullets">
+          <li>Showing new-switcher dissatisfaction faded after acclimation prevented a reactive redesign during app-store dips and guided onboarding timing.</li>
+          <li>US, UK, and India benchmarks uncovered UK/India video-fee myths and business-text clutter and shaped local RCS education and inbox organization.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-kicker">03 &middot; CRAFT OVER PARITY &amp; AI HYPE</div>
+        <h2 class="card-heading">Reshaped multi-year strategy</h2>
+        <ul class="card-bullets">
+          <li>Premiumness findings backed UX Design's expressive visual refresh and custom chat themes and shifted roadmaps from parity checklists to differentiation.</li>
+          <li>Showing standalone AI tools ranked last steered teams away from generic AI badges toward helpful tools embedded inside everyday workflows.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout-box callout-bottom">
+      <strong>Takeaway:</strong> Rigorous driver evidence gave leaders confidence to invest in trust clarity, visual craft, and differentiated features rather than chasing app-store swings or AI hype.
+    </div>
+
+    <div class="slide-footer">JEREMY MENDEL, PH.D. &middot; UXR CASE STUDY</div>
+  </section>
+
+  <!-- ==================== SLIDE 05 ==================== -->
+  <section class="slide" id="slide-05">
+    <div class="slide-eyebrow">05 CULTURE &amp; GOVERNANCE &rsaquo; 3-PART OPERATING MODEL &amp; PORTABLE PLAYBOOK</div>
+    <h1 class="slide-title">How our governance model makes user-centered craft a team habit</h1>
+
+    <div class="callout-box callout-top">
+      <strong>Operationalizing user perception:</strong> UX strategy sets our craft bar, and UXR verifies whether execution moves user perception. In 2026, I authored our three-part governance plan with Product, Engineering, Design, and Data Science to tie annual benchmarks to everyday shipping.
+    </div>
+
+    <div class="methods-table-wrap">
+      <table class="methods-table">
+        <thead>
+          <tr>
+            <th style="width: 19%;">Governance pillar</th>
+            <th style="width: 23%;">Before this program</th>
+            <th style="width: 29%;">New user-centered practice (2026 plan)</th>
+            <th style="width: 29%;">Bias &amp; quality guardrails</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="method-family">1. Annual panel &amp; two tracks</td>
+            <td>Success meant delivery logs, parity checklists, or noisy app-store stars</td>
+            <td>Annual US panels across rival apps split strategic bets (uniqueness, customization) from pre-release craft checks (beauty, care, appeal)</td>
+            <td>Slices flagship vs. budget phones, OS switchers, and early tech adopters for annual planning</td>
+          </tr>
+          <tr>
+            <td class="method-family">2. Co-owned launch surveys</td>
+            <td>Generic year-round pulses missed launch impact or caused survey fatigue</td>
+            <td>UXR, PM, and Eng leads co-select flagship launches for brief post-adoption mobile prompts (piloted on custom chat themes)</td>
+            <td>No matrix grids, strict per-user frequency caps, Data Science triggers, and non-blocking rollouts</td>
+          </tr>
+          <tr>
+            <td class="method-family">3. Shared team-wide modules</td>
+            <td>Survey numbers sat apart from usability flows and multi-device friction</td>
+            <td>All 5+ UXRs embed beauty, uniqueness, and care modules into concept tests, interviews, and phone/watch/web/car studies</td>
+            <td>Pairs quant tracking with qualitative sessions to explain why specific UI details hit or miss</td>
+          </tr>
+          <tr>
+            <td class="method-family">4. Bias-safe scorecards</td>
+            <td>Teams risked comparing engaged early adopters against external market panels</td>
+            <td>Standardizes leadership scorecards on positive agreement rates and consistent craft metrics across readouts</td>
+            <td>Holds teams accountable for launch craft while barring direct in-app vs. external panel comparisons</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout-box callout-bottom">
+      <strong>Takeaway:</strong> Connecting annual driver models and pre-release craft checks to co-owned launch surveys and survivorship-bias guardrails offers a portable blueprint for any product org.
+    </div>
+
+    <div class="slide-footer">JEREMY MENDEL, PH.D. &middot; UXR CASE STUDY</div>
+  </section>
+
+</body>
+</html>

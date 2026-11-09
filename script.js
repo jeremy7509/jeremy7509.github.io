@@ -7,12 +7,12 @@ const UXR_CASE_STUDIES = [
     number: '01',
     url: 'ai-workflows.html',
     slideCount: '6 Slides',
-    timeframe: 'Google Messages UXR · 2026',
+    timeframe: 'Google Messages UXR \u00b7 2026',
     title: 'Scaling UX research rigor and speed with AI workflows',
-    summary: 'Treated AI adoption like a research program—testing where AI helps and where it fails across a ~5,000-respondent US survey, building strict evidence safeguards into shared synthesis tools, shipping production survey-log code, and codifying 25 senior writing and statistics standards.',
-    badge: '01 · AI in UX Research',
+    summary: 'Treated AI adoption like a research program\u2014testing where AI helps and where it fails across a ~5,000-respondent US survey, building strict evidence safeguards into shared synthesis tools, shipping production survey-log code, and codifying 25 senior writing and statistics standards.',
+    badge: '01 \u00b7 AI in UX Research',
     sample: '6-Slide Presentation',
-    outcome: 'Outcomes: 117 users across 90 teams (~40-min syntheses, ~60% non-UXR) · 36-slide researcher playbook · Feature-level survey code in a 1B+ user app · 25 shared standards',
+    outcome: 'Outcomes: 117 users across 90 teams (~40-min syntheses, ~60% non-UXR) \u00b7 36-slide researcher playbook \u00b7 Feature-level survey code in a 1B+ user app \u00b7 25 shared standards',
     tags: [
       'AI Synthesis & Guardrails',
       'Production App Code',
@@ -30,12 +30,12 @@ const UXR_CASE_STUDIES = [
     number: '02',
     url: 'cross-os-rcs.html',
     slideCount: '5 Slides',
-    timeframe: 'Google Messages UXR · 2019–2026',
+    timeframe: 'Google Messages UXR \u00b7 2019\u20132026',
     title: 'Solving the cross-OS messaging divide and scaling RCS',
-    summary: 'Built and managed the Google Messages UXR team from 1 to 5+ researchers and led or directed 25+ mixed-methods studies across 13 methods—from early SMS/MMS bridges to 1B+ Android RCS users, Apple iOS 18 RCS interoperability, and post-launch evaluation.',
-    badge: '02 · Cross-OS & RCS Scale',
+    summary: 'Built and managed the Google Messages UXR team from 1 to 5+ researchers and led or directed 25+ mixed-methods studies across 13 methods\u2014from early SMS/MMS bridges to 1B+ Android RCS users, Apple iOS 18 RCS interoperability, and post-launch evaluation.',
+    badge: '02 \u00b7 Cross-OS & RCS Scale',
     sample: '5-Slide Presentation',
-    outcome: 'Outcomes: Priced iMessage lock-in (rivaled 3 hardware upgrades) · Backed Samsung & carrier defaults past 1B+ MAU · Shaped iOS 18 RCS advocacy & post-launch parity roadmap',
+    outcome: 'Outcomes: Priced iMessage lock-in (rivaled 3 hardware upgrades) \u00b7 Backed Samsung & carrier defaults past 1B+ MAU \u00b7 Shaped iOS 18 RCS advocacy & post-launch parity roadmap',
     tags: [
       'Choice-Based Conjoint',
       'MaxDiff Prioritization',
@@ -45,7 +45,7 @@ const UXR_CASE_STUDIES = [
     ],
     category: 'messages',
     question: 'Mixed Android and iPhone group chats felt broken in the US, yet leaders lacked data on which protocol failures mattered to everyday adults, how messaging lock-in compared to hardware specs, and why headline US satisfaction softened after iOS 18 RCS launched.',
-    method: 'Combined 13 research methods across 25+ studies (2019–2026): choice-based conjoint pricing iMessage/FaceTime lock-in against hardware upgrades, rapid sharing-menu A/B experiments, dual-OS and recipient usability studies, and post-iOS-18 group surveys, MaxDiff modeling, and user-mix decomposition.',
+    method: 'Combined 13 research methods across 25+ studies (2019\u20132026): choice-based conjoint pricing iMessage/FaceTime lock-in against hardware upgrades, rapid sharing-menu A/B experiments, dual-OS and recipient usability studies, and post-iOS-18 group surveys, MaxDiff modeling, and user-mix decomposition.',
     impact: 'Shipped cross-OS video links, translated tapback reactions, intact SMS-to-RCS group upgrades, and the global "RCS chats" auto-on setup past 1B+ active users; backed global OEM/carrier defaults and #GetTheMessage advocacy ahead of iOS 18 RCS; and separated post-launch delivery gains from legacy app-switcher headwinds.'
   },
   {
@@ -53,12 +53,12 @@ const UXR_CASE_STUDIES = [
     number: '03',
     url: 'benchmarking-premiumness.html',
     slideCount: '6 Slides',
-    timeframe: 'Google Messages UXR · 2023–2026',
+    timeframe: 'Google Messages UXR \u00b7 2023\u20132026',
     title: 'Measuring competitive quality and premiumness in Google Messages',
     summary: 'Architected a multi-wave competitive benchmarking program (US, UK, India), coached an early-career researcher into owning execution, modeled what makes an app feel "premium" vs. "works fine," and authored a 3-part org-wide governance model.',
-    badge: '03 · Benchmarking & Craft',
+    badge: '03 \u00b7 Benchmarking & Craft',
     sample: '6-Slide Presentation',
-    outcome: 'Outcomes: Set Engineering & UX craft OKRs · Prevented reactive redesign during app-store rating dips · Shifted strategy from AI badges to visual beauty (#1) & uniqueness (#2)',
+    outcome: 'Outcomes: Set Engineering & UX craft OKRs \u00b7 Prevented reactive redesign during app-store rating dips \u00b7 Shifted strategy from AI badges to visual beauty (#1) & uniqueness (#2)',
     tags: [
       'Psychometric Benchmarking',
       'Key Driver Analysis',
@@ -76,12 +76,12 @@ const UXR_CASE_STUDIES = [
     number: '04',
     url: 'admob.html',
     slideCount: '6 Slides',
-    timeframe: 'Google AdMob UXR · 2014–2017',
+    timeframe: 'Google AdMob UXR \u00b7 2014\u20132017',
     title: 'Rebuilding Google AdMob around how app businesses run',
-    summary: 'As AdMob’s sole UX researcher, built a 1,267-publisher research panel from zero and led 24 mixed-methods studies that pivoted Ad Network Mediation to rule-based Mediation Groups and guided a ground-up Material Design console overhaul.',
-    badge: '04 · 0-to-1 Monetization UXR',
+    summary: 'As AdMob\u2019s sole UX researcher, built a 1,267-publisher research panel from zero and led 24 mixed-methods studies that pivoted Ad Network Mediation to rule-based Mediation Groups and guided a ground-up Material Design console overhaul.',
+    badge: '04 \u00b7 0-to-1 Monetization UXR',
     sample: '6-Slide Presentation',
-    outcome: 'Outcomes: Shipped at Google I/O 2017 · Migrated 300,000+ publishers · Cut core workflows to 1–2 steps · Prevented unmatched-traffic revenue drops (14 of 14 in usability)',
+    outcome: 'Outcomes: Shipped at Google I/O 2017 \u00b7 Migrated 300,000+ publishers \u00b7 Cut core workflows to 1\u20132 steps \u00b7 Prevented unmatched-traffic revenue drops (14 of 14 in usability)',
     tags: [
       '0-to-1 Research Panel (N=1,267)',
       'Design Sprint Facilitation',
@@ -92,7 +92,7 @@ const UXR_CASE_STUDIES = [
     category: 'admob',
     question: 'After two years without dedicated UXR, AdMob planned two multi-quarter rewrites based on internal assumptions ("Shared Stacks" and org-chart navigation tabs) while studios struggled with manual country price floors and onboarding drop-off.',
     method: 'Recruited 1,267 verified publishers in 3 weeks via an in-product banner and led 24 studies across 4 stages: contextual studio interviews, a 2-day cross-functional design sprint, 10+ iterative prototype rounds (catching a 14/14 group-priority misconception), and a 3-step IA validation (card sort, nav prototype, and N=107 tree test) plus multi-language SUS benchmarks.',
-    impact: 'Pivoted mediation architecture before engineering build, restored a catch-all Default Mediation Group to protect publisher revenue, launched both overhauls at Google I/O 2017 for 300,000+ publishers (cutting core tasks to 1–2 steps), and scaled the panel and 3-step IA method to Firebase, AdSense, and DoubleClick.'
+    impact: 'Pivoted mediation architecture before engineering build, restored a catch-all Default Mediation Group to protect publisher revenue, launched both overhauls at Google I/O 2017 for 300,000+ publishers (cutting core tasks to 1\u20132 steps), and scaled the panel and 3-step IA method to Firebase, AdSense, and DoubleClick.'
   }
 ];
 
@@ -130,7 +130,7 @@ function createCaseStudyCard(study) {
 
   const sample = document.createElement('span');
   sample.className = 'project-sample';
-  sample.textContent = `${study.timeframe} · ${study.slideCount}`;
+  sample.textContent = `${study.timeframe} \u00b7 ${study.slideCount}`;
 
   top.append(badge, sample);
 
@@ -171,7 +171,8 @@ function createCaseStudyCard(study) {
 
   const quickBriefBtn = document.createElement('button');
   quickBriefBtn.type = 'button';
-  quickBriefBtn.className = 'btn btn-ghost btn-sm';
+  quickBriefBtn.className = 'btn btn-ghost btn-sm summary-btn';
+  quickBriefBtn.dataset.studyId = study.id;
   quickBriefBtn.setAttribute('aria-label', `Quick executive summary: ${study.title}`);
   quickBriefBtn.textContent = 'Executive Summary';
   quickBriefBtn.addEventListener('click', () => openCaseStudyModal(study));
@@ -194,7 +195,7 @@ function openCaseStudyModal(study) {
   const impactEl = document.getElementById('modal-study-impact');
   const deckLinkEl = document.getElementById('modal-deck-link');
 
-  if (badgeEl) badgeEl.textContent = `${study.badge} · ${study.timeframe}`;
+  if (badgeEl) badgeEl.textContent = `${study.badge} \u00b7 ${study.timeframe}`;
   if (titleEl) titleEl.textContent = study.title;
   if (summaryEl) summaryEl.textContent = study.summary;
   if (questionEl) questionEl.textContent = study.question;
@@ -208,12 +209,27 @@ function openCaseStudyModal(study) {
   modal.showModal();
 }
 
-function renderCaseStudies() {
+function initCaseStudies() {
   const projectsGrid = document.getElementById('projects-grid');
   if (!projectsGrid) return;
 
-  const cards = UXR_CASE_STUDIES.map((study) => createCaseStudyCard(study));
-  projectsGrid.replaceChildren(...cards);
+  // Check if cards are already rendered in HTML
+  const existingCards = projectsGrid.querySelectorAll('.project-card');
+  if (existingCards.length === 0) {
+    // Render from data if not present
+    const cards = UXR_CASE_STUDIES.map((study) => createCaseStudyCard(study));
+    projectsGrid.replaceChildren(...cards);
+  } else {
+    // Bind click events to existing summary buttons
+    const summaryButtons = projectsGrid.querySelectorAll('.summary-btn');
+    summaryButtons.forEach((btn) => {
+      const studyId = btn.dataset.studyId;
+      const study = UXR_CASE_STUDIES.find((s) => s.id === studyId);
+      if (study) {
+        btn.addEventListener('click', () => openCaseStudyModal(study));
+      }
+    });
+  }
 }
 
 function setupStudyFilters() {
@@ -271,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
     yearEl.textContent = String(new Date().getFullYear());
   }
 
-  renderCaseStudies();
+  initCaseStudies();
   setupStudyFilters();
   setupCopyEmail();
 });

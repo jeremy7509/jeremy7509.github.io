@@ -129,7 +129,7 @@ function createCaseStudyCard(study) {
 
   const sample = document.createElement('span');
   sample.className = 'project-sample';
-  sample.textContent = `${study.timeframe} \u00b7 ${study.slideCount}`;
+  sample.textContent = `${study.timeframe}`;
 
   top.append(badge, sample);
 
@@ -165,7 +165,7 @@ function createCaseStudyCard(study) {
   openDeckLink.href = study.url;
   openDeckLink.className = 'btn btn-primary btn-sm';
   const deckText = document.createElement('span');
-  deckText.textContent = 'Open Slide Deck';
+  deckText.textContent = 'Read Case Study';
   openDeckLink.append(deckText, createArrowIcon());
 
   const quickBriefBtn = document.createElement('button');
@@ -202,7 +202,7 @@ function openCaseStudyModal(study) {
   if (impactEl) impactEl.textContent = study.impact;
   if (deckLinkEl) {
     deckLinkEl.href = study.url;
-    deckLinkEl.textContent = 'Open Full Slide Deck';
+    deckLinkEl.textContent = 'Read Full Case Study';
   }
 
   modal.showModal();

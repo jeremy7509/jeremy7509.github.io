@@ -114,7 +114,12 @@
 
     let isMinimized = false;
     try {
-      isMinimized = localStorage.getItem(PANEL_STATE_KEY) === 'true';
+      const savedState = localStorage.getItem(PANEL_STATE_KEY);
+      if (savedState !== null) {
+        isMinimized = savedState === 'true';
+      } else {
+        isMinimized = window.matchMedia('(max-width: 640px)').matches;
+      }
     } catch {
       isMinimized = false;
     }

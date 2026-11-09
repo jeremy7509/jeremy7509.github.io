@@ -669,3 +669,43 @@
     outline: 2px solid Highlight;
   }
 }
+
+/* ==========================================================================
+   Shared Mobile & Small-Viewport Responsiveness Enhancements
+   ========================================================================== */
+@media (max-width: 720px) {
+  .brand-title,
+  .print-btn {
+    display: none !important;
+  }
+
+  .case-switcher {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    scrollbar-width: none;
+    max-inline-size: 100%;
+  }
+
+  .case-switcher a {
+    white-space: nowrap;
+    padding: 0.3rem 0.55rem !important;
+    font-size: 0.7rem !important;
+  }
+
+  .chart-row,
+  .diverging-row,
+  .driver-row {
+    grid-template-columns: 1fr !important;
+    gap: 0.45rem !important;
+  }
+
+  .palette-dock {
+    inset-block-end: 0.85rem;
+    inset-inline-end: 0.85rem;
+  }
+
+  .palette-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

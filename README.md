@@ -1,6 +1,6 @@
-# Jeremy's UX Research Portfolio (`jeremy7509.github.io`)
+# Jeremy Mendel, Ph.D. — UX Research Leader Portfolio (`jeremy7509.github.io`)
 
-User Experience Researcher (UXR) portfolio for [@jeremy7509](https://github.com/jeremy7509), featuring mixed-methods case studies, research methodology, and interactive research briefs.
+Portfolio website for **Jeremy Mendel, Ph.D.** — UX Research Leader, Applied Cognitive & Human Factors Psychologist, and AI Research Workflow Innovator (14+ years in UX Research, 12+ years at Google across Google Messages, Google Fi, Duo, Dialer, and AdMob).
 
 ## Live URL
 
@@ -8,8 +8,9 @@ Once pushed to the `main` branch of `jeremy7509/jeremy7509.github.io`, GitHub Pa
 
 **https://jeremy7509.github.io**
 
-## Structure
+## Highlights Included
 
-- `index.html` — Semantic HTML5 layout tailored for a UX Researcher (Hero with Field Synthesis artifact, Philosophy & Methodology, Featured Case Studies, and Native `<dialog>` Research Brief reader).
-- `styles.css` — Warm editorial dark mode stylesheet using `Inter` + `Newsreader` typography, CSS `@layer` architecture, and accessible contrast tokens.
-- `script.js` — Interactive case study filtering (`Foundational`, `Mixed-Methods`, `Evaluative`) and modal research brief viewer.
+- **Hero & Strategic Impact Snapshot**: 1B+ MAU Google Messages OEM Default Conjoint Strategy, iOS 18 Apple RCS Interoperability Research, and Google-wide Autonomous AI Discovery Agent & Production Usage-Survey Pipelines.
+- **Featured Case Studies & AI Innovation**: 6 filterable case studies (`Platform Strategy`, `AI & Tooling`, `Quant & Pricing`, `Global Fieldwork`) with interactive `<dialog>` executive briefs.
+- **14+ Year Career Timeline**: Google (Messages UXR Lead & Manager, Consumer Communications Rapid Research Manager, Google Fi, Google AdMob) and Nuance Communications.
+- **Core Competencies & Education**: Ph.D. & M.S. in Applied Psychology (Human Factors) from Clemson University, and B.A. in Psychology from North Carolina State University.

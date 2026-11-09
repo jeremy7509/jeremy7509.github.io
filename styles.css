@@ -7,7 +7,7 @@
     -webkit-text-size-adjust: 100%;
   }
 
-  body, h1, h2, h3, p, ul, ol, dl, dd, figure, blockquote, pre {
+  body, h1, h2, h3, h4, p, ul, ol, dl, dd, figure, blockquote, pre {
     margin: 0;
   }
 
@@ -785,6 +785,24 @@
 
   .timeline-bullets strong {
     color: var(--text-primary);
+  }
+
+  .timeline-subhead {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--accent-primary);
+    background-color: var(--bg-card-subtle);
+    border-inline-start: 3px solid var(--accent-primary);
+    padding: 0.35rem 0.75rem;
+    margin-block: 1.15rem 0.65rem;
+    border-radius: 0 4px 4px 0;
+
+    &:first-of-type {
+      margin-block-start: 0.15rem;
+    }
   }
 
   /* Competencies & Education */

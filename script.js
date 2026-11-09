@@ -56,14 +56,13 @@ const UXR_CASE_STUDIES = [
     timeframe: 'Google Messages UXR \u00b7 2023\u20132026',
     title: 'Measuring competitive quality and premiumness in Google Messages',
     summary: 'Architected a multi-wave competitive benchmarking program (US, UK, India), coached an early-career researcher into owning execution, modeled what makes an app feel "premium" vs. "works fine," and authored a 3-part org-wide governance model.',
-    badge: '03 \u00b7 Benchmarking & Craft',
+    badge: '03 \u00b7 Benchmarks',
     sample: '6-Slide Presentation',
     outcome: 'Outcomes: Set Engineering & UX craft OKRs \u00b7 Prevented reactive redesign during app-store rating dips \u00b7 Shifted strategy from AI badges to visual beauty (#1) & uniqueness (#2)',
     tags: [
       'Psychometric Benchmarking',
       'Key Driver Analysis',
       '4-Domain Premiumness Model',
-      'Think-Aloud Audits',
       'UX Governance & OKRs'
     ],
     category: 'messages',

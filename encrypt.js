@@ -64,17 +64,19 @@ function buildLockScreenHtml(study, encryptedBase64, originalMeta) {
   <style>
     :root {
       color-scheme: dark;
-      --bg-canvas: #0b0f17;
-      --bg-surface: #131b2b;
+      --bg-canvas: #070b14;
+      --bg-surface: #0f172a;
       --bg-elevated: #1e293b;
       --text-primary: #f8fafc;
       --text-secondary: #cbd5e1;
       --text-muted: #94a3b8;
-      --accent-amber: #f59e0b;
-      --accent-amber-bright: #fbbf24;
-      --accent-amber-soft: rgba(245, 158, 11, 0.12);
-      --accent-amber-border: rgba(245, 158, 11, 0.32);
-      --accent-teal: #2dd4bf;
+      --accent-amber: #38bdf8;
+      --accent-amber-bright: #7dd3fc;
+      --accent-amber-soft: rgba(56, 189, 248, 0.12);
+      --accent-amber-border: rgba(56, 189, 248, 0.32);
+      --accent-teal: #34d399;
+      --accent-teal-soft: rgba(52, 211, 153, 0.1);
+      --accent-teal-border: rgba(52, 211, 153, 0.28);
       --border-subtle: rgba(148, 163, 184, 0.16);
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       --font-serif: 'Newsreader', Georgia, serif;
@@ -110,7 +112,7 @@ function buildLockScreenHtml(study, encryptedBase64, originalMeta) {
       transform: translateX(-50%);
       width: 68rem;
       height: 38rem;
-      background: radial-gradient(ellipse at center, rgba(245, 158, 11, 0.12) 0%, rgba(45, 212, 191, 0.08) 45%, transparent 75%);
+      background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.12) 0%, rgba(52, 211, 153, 0.08) 45%, transparent 75%);
       pointer-events: none;
       z-index: -1;
       filter: blur(52px);
@@ -288,7 +290,7 @@ function buildLockScreenHtml(study, encryptedBase64, originalMeta) {
     .passcode-input:focus {
       outline: none;
       border-color: var(--accent-amber);
-      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
     }
 
     .toggle-pwd-btn {
@@ -334,20 +336,20 @@ function buildLockScreenHtml(study, encryptedBase64, originalMeta) {
       gap: 0.5rem;
       min-height: 2.85rem;
       padding: 0.65rem 1.4rem;
-      background: linear-gradient(135deg, #fbbf24, #f59e0b);
-      color: #0b0f17;
+      background: linear-gradient(135deg, #7dd3fc, #38bdf8);
+      color: #070b14;
       font-size: 0.95rem;
       font-weight: 600;
       border: none;
       border-radius: var(--radius-sm);
       cursor: pointer;
-      box-shadow: 0 4px 18px -3px rgba(245, 158, 11, 0.4);
+      box-shadow: 0 4px 18px -3px rgba(56, 189, 248, 0.4);
       transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
     }
 
     .btn-unlock:hover:not(:disabled) {
       transform: translateY(-1px);
-      box-shadow: 0 6px 22px -3px rgba(245, 158, 11, 0.55);
+      box-shadow: 0 6px 22px -3px rgba(56, 189, 248, 0.55);
     }
 
     .btn-unlock:disabled {
@@ -611,16 +613,6 @@ function buildLockScreenHtml(study, encryptedBase64, originalMeta) {
           document.open();
           document.write(decryptedHtml);
           document.close();
-
-          // Ensure palettes and other scripts are initialized if not auto-executed
-          setTimeout(() => {
-            if (!document.getElementById('palette-dock')) {
-              const palScript = document.createElement('script');
-              palScript.src = 'palettes.js?v=20261109h';
-              palScript.defer = true;
-              document.body.appendChild(palScript);
-            }
-          }, 80);
 
         } catch (err) {
           if (isAuto) {

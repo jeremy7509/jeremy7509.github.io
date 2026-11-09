@@ -35,49 +35,45 @@
 
 @layer theme {
   :root {
-    color-scheme: dark light;
+    color-scheme: light dark;
 
-    /* Warm editorial dark palette for UX Research Leadership */
-    --bg-canvas-dark: #0b0f17;
-    --bg-canvas-light: #fafaf9;
+    &:has(> head > meta[name="color-scheme"][content="dark"]) {
+      color-scheme: dark;
+    }
+    &:has(> head > meta[name="color-scheme"][content="light"]) {
+      color-scheme: light;
+    }
 
-    --bg-surface-dark: #131b2b;
-    --bg-surface-light: #ffffff;
-
-    --bg-elevated-dark: #1e293b;
-    --bg-elevated-light: #f1f5f9;
-
-    --text-primary-dark: #f8fafc;
-    --text-primary-light: #0f172a;
-
-    --text-secondary-dark: #cbd5e1;
-    --text-secondary-light: #475569;
-
-    --text-muted-dark: #94a3b8;
-    --text-muted-light: #64748b;
-
-    /* Warm amber + teal research accents */
-    --accent-primary-dark: #f59e0b;
-    --accent-primary-light: #d97706;
-
-    --accent-secondary-dark: #2dd4bf;
-    --accent-secondary-light: #0d9488;
-
-    --border-subtle-dark: rgba(148, 163, 184, 0.15);
-    --border-subtle-light: rgba(15, 23, 42, 0.1);
-
-    --border-hover-dark: rgba(245, 158, 11, 0.45);
-    --border-hover-light: rgba(217, 119, 6, 0.4);
-
-    /* Canonical dark mode theme variables */
+    /* Default Palette: Midnight Amber (Warm Editorial Dark) */
     --bg-canvas: #0b0f17;
     --bg-surface: #131b2b;
     --bg-elevated: #1e293b;
+    --bg-header: rgba(11, 15, 23, 0.84);
+    --bg-card: rgba(19, 27, 43, 0.82);
+    --bg-card-subtle: rgba(11, 15, 23, 0.55);
+    --bg-pill: rgba(30, 41, 59, 0.75);
+    --bg-hover-tint: rgba(255, 255, 255, 0.04);
+
     --text-primary: #f8fafc;
     --text-secondary: #cbd5e1;
     --text-muted: #94a3b8;
+
     --accent-primary: #f59e0b;
+    --accent-primary-bright: #fbbf24;
+    --accent-primary-soft: rgba(245, 158, 11, 0.12);
+    --accent-primary-border: rgba(245, 158, 11, 0.28);
+    --accent-primary-glow: rgba(245, 158, 11, 0.35);
+
     --accent-secondary: #2dd4bf;
+    --accent-secondary-soft: rgba(45, 212, 191, 0.1);
+    --accent-secondary-border: rgba(45, 212, 191, 0.25);
+
+    --btn-primary-bg: linear-gradient(135deg, #fbbf24, #f59e0b);
+    --btn-primary-text: #0b0f17;
+    --hero-gradient-text: linear-gradient(135deg, #fbbf24 0%, #2dd4bf 100%);
+    --contact-card-bg: linear-gradient(145deg, rgba(19, 27, 43, 0.92), rgba(30, 41, 59, 0.55));
+    --card-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.5);
+
     --border-subtle: rgba(148, 163, 184, 0.15);
     --border-hover: rgba(245, 158, 11, 0.45);
 
@@ -134,7 +130,7 @@
   }
 
   ::selection {
-    background-color: rgba(245, 158, 11, 0.25);
+    background-color: var(--accent-primary-soft);
     color: var(--text-primary);
   }
 }
@@ -155,8 +151,8 @@
     block-size: 38rem;
     background: radial-gradient(
       ellipse at center,
-      rgba(245, 158, 11, 0.12) 0%,
-      rgba(45, 212, 191, 0.08) 45%,
+      var(--accent-primary-soft) 0%,
+      var(--accent-secondary-soft) 45%,
       transparent 75%
     );
     pointer-events: none;
@@ -170,7 +166,7 @@
     inset-block-start: 0;
     z-index: 50;
     backdrop-filter: blur(14px);
-    background-color: rgba(11, 15, 23, 0.82);
+    background-color: var(--bg-header);
     border-block-end: 1px solid var(--border-subtle);
   }
 
@@ -229,7 +225,7 @@
 
     &:hover {
       color: var(--text-primary);
-      background-color: rgba(255, 255, 255, 0.04);
+      background-color: var(--bg-hover-tint);
     }
   }
 
@@ -263,18 +259,18 @@
   }
 
   .btn-primary {
-    background: linear-gradient(135deg, #fbbf24, #f59e0b);
-    color: #0b0f17;
-    box-shadow: 0 4px 20px -4px rgba(245, 158, 11, 0.35);
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    box-shadow: 0 4px 20px -4px var(--accent-primary-glow);
 
     &:hover:not(:disabled) {
       transform: translateY(-1px);
-      box-shadow: 0 8px 25px -4px rgba(245, 158, 11, 0.5);
+      box-shadow: 0 8px 25px -4px var(--accent-primary-glow);
     }
   }
 
   .btn-secondary {
-    background-color: rgba(30, 41, 59, 0.65);
+    background-color: var(--bg-pill);
     color: var(--text-primary);
     border-color: var(--border-subtle);
 
@@ -293,7 +289,7 @@
     &:hover:not(:disabled) {
       color: var(--text-primary);
       border-color: var(--border-hover);
-      background-color: rgba(255, 255, 255, 0.03);
+      background-color: var(--bg-hover-tint);
     }
   }
 
@@ -320,9 +316,9 @@
     padding-inline: 0.875rem;
     padding-block: 0.35rem;
     border-radius: var(--radius-full);
-    background-color: rgba(245, 158, 11, 0.1);
-    border: 1px solid rgba(245, 158, 11, 0.28);
-    color: #fbbf24;
+    background-color: var(--accent-primary-soft);
+    border: 1px solid var(--accent-primary-border);
+    color: var(--accent-primary-bright);
     font-size: 0.8125rem;
     font-weight: 500;
     margin-block-end: 1.4rem;
@@ -349,7 +345,7 @@
     font-family: var(--font-serif);
     font-style: italic;
     font-weight: 500;
-    background: linear-gradient(135deg, #fbbf24 0%, #2dd4bf 100%);
+    background: var(--hero-gradient-text);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -394,11 +390,11 @@
 
   /* Executive Impact Card in Hero */
   .insight-card {
-    background-color: rgba(19, 27, 43, 0.88);
+    background-color: var(--bg-card);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
     padding: 1.65rem;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    box-shadow: var(--card-shadow);
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
@@ -425,7 +421,7 @@
     font-family: var(--font-mono);
     font-size: 0.75rem;
     color: var(--text-muted);
-    background-color: rgba(30, 41, 59, 0.7);
+    background-color: var(--bg-pill);
     padding-inline: 0.6rem;
     padding-block: 0.2rem;
     border-radius: var(--radius-full);
@@ -443,7 +439,7 @@
     gap: 0.875rem;
     align-items: start;
     padding: 0.85rem;
-    background-color: rgba(11, 15, 23, 0.55);
+    background-color: var(--bg-card-subtle);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
   }
@@ -453,7 +449,7 @@
 
     &:hover {
       border-color: var(--border-hover);
-      background-color: rgba(30, 41, 59, 0.65);
+      background-color: var(--bg-elevated);
       transform: translateX(3px);
     }
   }
@@ -463,8 +459,8 @@
     font-size: 0.75rem;
     font-weight: 600;
     color: var(--accent-secondary);
-    background-color: rgba(45, 212, 191, 0.1);
-    border: 1px solid rgba(45, 212, 191, 0.25);
+    background-color: var(--accent-secondary-soft);
+    border: 1px solid var(--accent-secondary-border);
     padding: 0.35rem 0.5rem;
     border-radius: var(--radius-sm);
     text-align: center;
@@ -544,7 +540,7 @@
     display: inline-flex;
     flex-wrap: wrap;
     padding: 0.25rem;
-    background-color: rgba(19, 27, 43, 0.85);
+    background-color: var(--bg-card);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-sm);
     gap: 0.25rem;
@@ -600,7 +596,7 @@
     display: flex;
     flex-direction: column;
     padding: 1.65rem;
-    background-color: rgba(19, 27, 43, 0.75);
+    background-color: var(--bg-card);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
     transition: border-color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
@@ -608,7 +604,7 @@
     &:hover {
       border-color: var(--border-hover);
       transform: translateY(-3px);
-      box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.5);
+      box-shadow: var(--card-shadow);
     }
   }
 
@@ -630,9 +626,9 @@
     padding-inline: 0.65rem;
     padding-block: 0.2rem;
     border-radius: var(--radius-full);
-    background-color: rgba(245, 158, 11, 0.12);
-    color: #fbbf24;
-    border: 1px solid rgba(245, 158, 11, 0.25);
+    background-color: var(--accent-primary-soft);
+    color: var(--accent-primary-bright);
+    border: 1px solid var(--accent-primary-border);
   }
 
   .project-sample {
@@ -658,8 +654,8 @@
   .project-outcome {
     font-size: 0.825rem;
     color: var(--accent-secondary);
-    background-color: rgba(45, 212, 191, 0.08);
-    border: 1px solid rgba(45, 212, 191, 0.2);
+    background-color: var(--accent-secondary-soft);
+    border: 1px solid var(--accent-secondary-border);
     padding: 0.55rem 0.8rem;
     border-radius: var(--radius-sm);
     margin-block-end: 1.2rem;
@@ -676,7 +672,7 @@
     font-family: var(--font-mono);
     font-size: 0.72rem;
     color: var(--text-secondary);
-    background-color: rgba(30, 41, 59, 0.75);
+    background-color: var(--bg-pill);
     padding-inline: 0.55rem;
     padding-block: 0.2rem;
     border-radius: 4px;
@@ -712,7 +708,7 @@
 
   .timeline-item {
     position: relative;
-    background-color: rgba(19, 27, 43, 0.65);
+    background-color: var(--bg-card);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
     padding: 1.5rem;
@@ -736,7 +732,7 @@
     &.active {
       background-color: var(--accent-primary);
       border-color: var(--accent-primary);
-      box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
+      box-shadow: 0 0 12px var(--accent-primary-glow);
     }
   }
 
@@ -772,7 +768,7 @@
     font-family: var(--font-mono);
     font-size: 0.8rem;
     color: var(--text-secondary);
-    background-color: rgba(30, 41, 59, 0.75);
+    background-color: var(--bg-pill);
     padding: 0.25rem 0.65rem;
     border-radius: var(--radius-full);
   }
@@ -800,7 +796,7 @@
 
   .feature-card {
     padding: 1.5rem;
-    background-color: rgba(19, 27, 43, 0.65);
+    background-color: var(--bg-card);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
   }
@@ -812,7 +808,7 @@
     inline-size: 2.5rem;
     block-size: 2.5rem;
     border-radius: var(--radius-sm);
-    background-color: rgba(245, 158, 11, 0.12);
+    background-color: var(--accent-primary-soft);
     color: var(--accent-primary);
     margin-block-end: 0.85rem;
   }
@@ -832,7 +828,7 @@
     font-size: 0.785rem;
     font-weight: 500;
     color: var(--text-secondary);
-    background-color: rgba(30, 41, 59, 0.75);
+    background-color: var(--bg-pill);
     border: 1px solid var(--border-subtle);
     padding-inline: 0.65rem;
     padding-block: 0.28rem;
@@ -844,7 +840,7 @@
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     gap: 1rem;
     padding: 1.35rem 1.5rem;
-    background-color: rgba(19, 27, 43, 0.85);
+    background-color: var(--bg-card);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
   }
@@ -956,7 +952,7 @@
   /* Contact Card */
   .contact-card {
     padding: clamp(2rem, 5vw, 3.5rem);
-    background: linear-gradient(145deg, rgba(19, 27, 43, 0.9), rgba(30, 41, 59, 0.55));
+    background: var(--contact-card-bg);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
     text-align: center;
@@ -1032,7 +1028,7 @@
     inset-inline-start: 1rem;
     z-index: 100;
     background-color: var(--accent-primary);
-    color: #0b0f17;
+    color: var(--btn-primary-text);
     padding: 0.6rem 1rem;
     border-radius: var(--radius-sm);
     font-weight: 600;

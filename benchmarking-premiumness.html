@@ -3,7 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="dark">
+  <meta name="color-scheme" content="dark light">
+  <script>
+    try {
+      const p = localStorage.getItem('uxr-portfolio-palette');
+      const s = localStorage.getItem('color-scheme');
+      if (p) document.documentElement.dataset.palette = p;
+      if (s) document.querySelector('meta[name="color-scheme"]').content = s;
+    } catch {}
+  </script>
   <meta name="description" content="UXR Case Study: Measuring competitive quality and premiumness in Google Messages — Jeremy Mendel, Ph.D., UX Research Lead & Manager at Google Messages.">
   <title>Benchmarks &amp; Premiumness Case Study | Jeremy Mendel, Ph.D.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -736,6 +744,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="palettes.css?v=20261109e">
 </head>
 <body>
 
@@ -1180,5 +1189,6 @@
     </div>
   </footer>
 
+  <script src="palettes.js?v=20261109e" defer></script>
 </body>
 </html>

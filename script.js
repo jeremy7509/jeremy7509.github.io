@@ -166,7 +166,7 @@ function createCaseStudyCard(study) {
   openDeckLink.href = study.url;
   openDeckLink.className = 'btn btn-primary btn-sm';
   const deckText = document.createElement('span');
-  deckText.textContent = `Open Slide Deck (${study.slideCount})`;
+  deckText.textContent = 'Open Slide Deck';
   openDeckLink.append(deckText, createArrowIcon());
 
   const quickBriefBtn = document.createElement('button');
@@ -203,7 +203,7 @@ function openCaseStudyModal(study) {
   if (impactEl) impactEl.textContent = study.impact;
   if (deckLinkEl) {
     deckLinkEl.href = study.url;
-    deckLinkEl.textContent = `Open Full Slide Deck (${study.slideCount})`;
+    deckLinkEl.textContent = 'Open Full Slide Deck';
   }
 
   modal.showModal();

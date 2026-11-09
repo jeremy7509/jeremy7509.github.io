@@ -16,11 +16,20 @@ Portfolio website for **Jeremy Mendel, Ph.D.** (`@jeremy7509`), UX Research Lead
 - **AI Research Tooling & Production Code:** Built an autonomous discovery agent used across Google, shipped live production code joining product usage logs with in-product surveys, and created agentic AI skills for codebase-grounded survey drafting and statistical analysis.
 - **Academic Background:** Ph.D. & M.S. in Applied Psychology (Human Factors) from Clemson University; B.A. in Psychology from North Carolina State University.
 
-## Publishing to GitHub Pages
+## Editing & Encrypting Case Studies
 
-1. Create a public repository named `jeremy7509.github.io` on GitHub.
-2. Push this repository to GitHub:
-   ```powershell
-   git push -u origin main
-   ```
-3. Visit `https://jeremy7509.github.io` once GitHub Pages finishes deploying.
+The 4 deep-dive case studies are encrypted with **AES-256-GCM** using the browser's native Web Crypto API.
+
+- **Unencrypted source files**: Located in the local `case-studies-src/` directory (ignored by git so your proprietary methods remain private).
+- **Encrypt for publishing**: Run:
+  ```bash
+  npm run encrypt
+  # or: node encrypt.js
+  ```
+  This encrypts the 4 pages using your passcode and generates the public lockfiles in the root directory.
+- **Decrypt to source**: Run:
+  ```bash
+  npm run decrypt
+  # or: node decrypt.js
+  ```
+- **Recruiter Experience**: Recruiters enter the passcode once; `sessionStorage` keeps all four case studies unlocked for their browsing session.

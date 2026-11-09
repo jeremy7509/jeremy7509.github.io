@@ -393,7 +393,7 @@ function buildLockScreenHtml(study, encryptedBase64, originalMeta) {
       border-top: 1px solid var(--border-subtle);
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       gap: 0.75rem;
       font-size: 0.785rem;
@@ -504,7 +504,6 @@ function buildLockScreenHtml(study, encryptedBase64, originalMeta) {
 
       <div class="card-footer">
         <a href="index.html#featured-work">&larr; Return to Portfolio</a>
-        <a href="mailto:Jeremy.Mendel@gmail.com?subject=Case%20Study%20Passcode%20Request">Request Passcode Access</a>
       </div>
     </div>
   </main>

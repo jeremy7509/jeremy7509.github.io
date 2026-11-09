@@ -3,307 +3,460 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UXR Case Study · AI Workflows — Scaling UX Research Rigor and Speed | Jeremy Mendel, Ph.D.</title>
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="UXR Case Study: Scaling UX research rigor and speed with AI workflows — Jeremy Mendel, Ph.D., UX Research Lead & Manager at Google Messages.">
+  <title>AI Workflows Case Study — Scaling UX Research Rigor &amp; Speed | Jeremy Mendel, Ph.D.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --blue-primary: #0B66C3;
-      --blue-dark: #0A4D96;
-      --blue-accent: #1A73E8;
-      --blue-header-bar: #0B66C3;
-      --callout-bg: #EDF2F7;
-      --card-bg: #F8FAFC;
-      --card-border: #DCE3EC;
-      --table-border: #D5DEE8;
-      --text-primary: #111827;
-      --text-secondary: #1F2937;
-      --text-muted: #64748B;
-      --green-primary: #15803D;
-      --green-dark: #14532D;
-      --green-bg: #EAF6EE;
-      --green-border: #BBF7D0;
-      --teal-bar: #0D9488;
-      --amber-border: #C2410C;
-      --amber-bg: #F9EBE0;
-      --amber-text: #8C2D04;
-      --purple-accent: #6B21A8;
-      --purple-bg: #F3ECF9;
-      --purple-border: #D8B4FE;
-      --before-border: #4B5563;
-      --before-bg: #F1F5F9;
+      color-scheme: dark;
+      --bg-canvas: #0b0f17;
+      --bg-surface: #131b2b;
+      --bg-elevated: #1b253b;
+      --bg-glass: rgba(19, 27, 43, 0.84);
+
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+
+      --accent-amber: #f59e0b;
+      --accent-amber-soft: rgba(245, 158, 11, 0.12);
+      --accent-amber-border: rgba(245, 158, 11, 0.35);
+
+      --accent-teal: #2dd4bf;
+      --accent-teal-soft: rgba(45, 212, 191, 0.1);
+      --accent-teal-border: rgba(45, 212, 191, 0.3);
+
+      --accent-blue: #38bdf8;
+      --accent-blue-soft: rgba(56, 189, 248, 0.1);
+      --accent-blue-border: rgba(56, 189, 248, 0.3);
+
+      --accent-green: #34d399;
+      --accent-green-soft: rgba(52, 211, 153, 0.1);
+      --accent-green-border: rgba(52, 211, 153, 0.32);
+
+      --accent-purple: #c084fc;
+      --accent-purple-soft: rgba(192, 132, 252, 0.1);
+      --accent-purple-border: rgba(192, 132, 252, 0.32);
+
+      --accent-warn: #fb923c;
+      --accent-warn-soft: rgba(251, 146, 60, 0.1);
+      --accent-warn-border: rgba(251, 146, 60, 0.35);
+
+      --border-subtle: rgba(148, 163, 184, 0.16);
+      --border-strong: rgba(148, 163, 184, 0.26);
+
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-serif: 'Newsreader', Georgia, Cambria, 'Times New Roman', serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+      --radius-sm: 0.5rem;
+      --radius-md: 0.875rem;
+      --radius-lg: 1.25rem;
+      --container-max: 74rem;
     }
 
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 7.5rem;
+    }
+
     body {
-      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #0b0f17;
+      font-family: var(--font-sans);
+      background-color: var(--bg-canvas);
       color: var(--text-primary);
+      line-height: 1.65;
       -webkit-font-smoothing: antialiased;
-      padding: 24px 16px 64px;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 32px;
+      position: relative;
+      overflow-x: hidden;
     }
 
-    /* Toolbar for screen viewing & portfolio navigation */
-    .deck-toolbar {
-      width: 1280px;
-      max-width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      color: #F8FAFC;
-      font-size: 14px;
-      padding: 12px 18px;
-      background: rgba(19, 27, 43, 0.92);
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      border-radius: 10px;
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Ambient Top Glow */
+    .ambient-glow {
+      position: fixed;
+      top: -18rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 68rem;
+      height: 38rem;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(245, 158, 11, 0.11) 0%,
+        rgba(45, 212, 191, 0.07) 45%,
+        transparent 75%
+      );
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(52px);
+    }
+
+    .container {
+      width: min(100% - 2.5rem, var(--container-max));
+      margin-inline: auto;
+    }
+
+    /* Site Header (Matches index.html) */
+    .site-header {
       position: sticky;
-      top: 12px;
+      top: 0;
       z-index: 100;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
+      background-color: rgba(11, 15, 23, 0.88);
+      border-bottom: 1px solid var(--border-subtle);
     }
 
-    .toolbar-left {
+    .header-inner {
       display: flex;
       align-items: center;
-      gap: 16px;
+      justify-content: space-between;
+      min-height: 4rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding-block: 0.5rem;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
       flex-wrap: wrap;
     }
 
-    .back-link {
+    .back-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      color: #fbbf24;
-      text-decoration: none;
+      gap: 0.45rem;
+      font-size: 0.825rem;
       font-weight: 600;
-      font-size: 13.5px;
-      padding: 6px 12px;
-      border-radius: 6px;
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      transition: background 0.15s ease;
+      color: var(--accent-amber);
+      background: var(--accent-amber-soft);
+      border: 1px solid var(--accent-amber-border);
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-sm);
+      transition: background-color 180ms ease, transform 180ms ease;
     }
 
-    .back-link:hover {
-      background: rgba(245, 158, 11, 0.22);
+    .back-btn:hover {
+      background: rgba(245, 158, 11, 0.2);
+      transform: translateX(-2px);
     }
 
-    .deck-toolbar .toolbar-title {
+    .brand-title {
+      font-size: 0.925rem;
       font-weight: 600;
-      letter-spacing: 0.01em;
-      color: #e2e8f0;
+      color: var(--text-primary);
     }
 
-    .deck-toolbar .toolbar-actions {
+    .brand-title span {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .case-switcher {
       display: flex;
-      gap: 8px;
       align-items: center;
+      gap: 0.35rem;
       flex-wrap: wrap;
     }
 
-    .project-switcher {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      margin-right: 8px;
-    }
-
-    .project-switcher a {
-      color: #cbd5e1;
-      text-decoration: none;
-      font-size: 12.5px;
+    .case-switcher a {
+      font-family: var(--font-mono);
+      font-size: 0.725rem;
       font-weight: 500;
-      padding: 5px 10px;
+      color: var(--text-secondary);
+      padding: 0.35rem 0.65rem;
       border-radius: 6px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
+      border: 1px solid transparent;
+      transition: all 160ms ease;
     }
 
-    .project-switcher a:hover {
-      color: #ffffff;
-      border-color: rgba(245, 158, 11, 0.45);
+    .case-switcher a:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--border-subtle);
     }
 
-    .project-switcher a.current {
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
+    .case-switcher a.active {
+      color: var(--accent-teal);
+      background: var(--accent-teal-soft);
+      border-color: var(--accent-teal-border);
       font-weight: 600;
     }
 
-    .deck-toolbar button {
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      color: #FFFFFF;
-      background: var(--blue-accent);
-      border: none;
-      border-radius: 6px;
-      padding: 7px 14px;
+    /* Section Jump Sub-Navigation */
+    .subnav-bar {
+      background: rgba(15, 21, 35, 0.92);
+      border-bottom: 1px solid var(--border-subtle);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .subnav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 2.6rem;
+    }
+
+    .subnav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      list-style: none;
+      white-space: nowrap;
+    }
+
+    .subnav-links a {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      padding: 0.3rem 0.65rem;
+      border-radius: 5px;
+      transition: color 150ms ease, background-color 150ms ease;
+    }
+
+    .subnav-links a:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .subnav-links a .num {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent-amber);
+      margin-right: 0.25rem;
+    }
+
+    .print-btn {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      padding: 0.28rem 0.65rem;
+      border-radius: 5px;
       cursor: pointer;
+      white-space: nowrap;
+      transition: all 150ms ease;
     }
 
-    .deck-toolbar button:hover {
-      background: #1557B0;
+    .print-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--accent-amber-border);
     }
 
-    /* 16:9 Slide Container (1280 x 720) */
-    .slide {
-      width: 1280px;
-      height: 720px;
-      background: #FFFFFF;
-      position: relative;
+    /* Case Study Hero */
+    .case-hero {
+      padding-block: clamp(3rem, 6vw, 4.75rem) clamp(2.5rem, 4vw, 3.5rem);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .eyebrow-row {
       display: flex;
-      flex-direction: column;
-      padding: 34px 48px 24px 48px;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
-      overflow: hidden;
-      page-break-after: always;
-      break-after: page;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
     }
 
-    /* Top full-bleed blue bar */
-    .slide::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 8px;
-      background: var(--blue-header-bar);
-    }
-
-    /* Eyebrow & Title */
-    .slide-eyebrow {
-      font-size: 13.5px;
-      font-weight: 800;
-      letter-spacing: 0.04em;
+    .eyebrow-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
       text-transform: uppercase;
-      color: var(--blue-primary);
-      margin-bottom: 5px;
+      letter-spacing: 0.06em;
+      color: var(--accent-amber);
+      background: var(--accent-amber-soft);
+      border: 1px solid var(--accent-amber-border);
+      padding: 0.28rem 0.75rem;
+      border-radius: 9999px;
     }
 
-    .slide-title {
-      font-size: 33.5px;
+    .eyebrow-meta {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 1.5rem + 2.6vw, 3.25rem);
       font-weight: 800;
-      letter-spacing: -0.02em;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
       color: var(--text-primary);
-      line-height: 1.15;
-      margin-bottom: 14px;
+      margin-bottom: 1rem;
+      max-width: 26ch;
     }
 
-    .slide-subtitle {
-      font-size: 15.5px;
-      line-height: 1.35;
-      margin-top: -8px;
-      margin-bottom: 12px;
-      color: #475569;
+    .hero-title em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 500;
+      background: linear-gradient(135deg, #fbbf24 0%, #2dd4bf 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      padding-right: 0.06em;
     }
 
-    .slide-subtitle .sub-lead {
-      font-weight: 700;
-      color: var(--blue-primary);
+    .hero-subtitle {
+      font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.25rem);
+      color: var(--text-secondary);
+      max-width: 68ch;
+      margin-bottom: 2rem;
     }
 
-    .slide-subtitle .sub-pipe {
-      margin: 0 6px;
-      color: #94A3B8;
+    .hero-subtitle strong {
+      color: var(--accent-teal);
+      font-weight: 600;
     }
 
-    /* Top & Bottom Callout Boxes */
-    .callout-box {
-      background: var(--callout-bg);
-      border-left: 5px solid var(--blue-primary);
-      padding: 12px 20px;
-      font-size: 15.2px;
-      line-height: 1.42;
-      color: var(--text-primary);
+    /* Callout Banners (Problem / Approach / Takeaway) */
+    .callout-banner {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--accent-amber);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 0.65rem;
+      font-size: 0.985rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
     }
 
-    .callout-box strong {
+    .callout-banner strong {
+      color: var(--text-primary);
       font-weight: 700;
-      color: #0F172A;
     }
 
-    .callout-top {
-      margin-bottom: 18px;
+    .callout-takeaway {
+      background: linear-gradient(90deg, rgba(45, 212, 191, 0.09) 0%, rgba(19, 27, 43, 0.85) 100%);
+      border: 1px solid var(--accent-teal-border);
+      border-left: 4px solid var(--accent-teal);
+      border-radius: var(--radius-md);
+      padding: 1.15rem 1.5rem;
+      font-size: 0.975rem;
+      color: var(--text-secondary);
+      margin-top: 1.75rem;
     }
 
-    .callout-bottom {
-      margin-top: auto;
-      margin-bottom: 10px;
+    .callout-takeaway strong {
+      color: var(--accent-teal);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-right: 0.4rem;
     }
 
-    /* Slide 01: 4-Column Problem Cards */
+    /* Content Sections */
+    .case-section {
+      padding-block: clamp(3rem, 5.5vw, 4.5rem);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-amber);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Overview 4-Column Problem Cards */
     .cards-grid-four {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-      flex: 1;
-      margin-bottom: 18px;
-      min-height: 0;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr));
+      gap: 1.25rem;
     }
 
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-top: 5px solid var(--blue-primary);
-      padding: 20px 22px 18px 22px;
+    .case-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-top: 3px solid var(--accent-amber);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
+      transition: border-color 180ms ease, transform 180ms ease;
+    }
+
+    a.case-card:hover {
+      border-color: var(--accent-amber-border);
+      transform: translateY(-2px);
     }
 
     .card-kicker {
-      font-size: 12.5px;
-      font-weight: 800;
-      letter-spacing: 0.03em;
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--blue-primary);
-      margin-bottom: 8px;
+      color: var(--accent-amber);
+      margin-bottom: 0.55rem;
     }
 
-    .card-heading-blue {
-      font-size: 17.5px;
-      font-weight: 800;
-      color: var(--blue-dark);
-      letter-spacing: -0.01em;
-      margin-bottom: 14px;
-      line-height: 1.24;
-    }
-
-    .card-body-text {
-      font-size: 14.8px;
-      line-height: 1.44;
-      color: var(--text-secondary);
-      flex: 1;
-    }
-
-    .card-outcome-box {
-      background: var(--callout-bg);
-      border-left: 4px solid var(--blue-primary);
-      padding: 9px 11px;
-      font-size: 12.5px;
-      line-height: 1.35;
-      color: var(--text-secondary);
-      margin-top: 14px;
-    }
-
-    .card-outcome-box strong {
+    .card-heading {
+      font-size: 1.125rem;
+      font-weight: 700;
       color: var(--text-primary);
-      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-body {
+      font-size: 0.925rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      flex: 1;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-outcome {
+      background: var(--accent-teal-soft);
+      border: 1px solid var(--accent-teal-border);
+      border-left: 3px solid var(--accent-teal);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.85rem;
+      font-size: 0.825rem;
+      line-height: 1.4;
+      color: var(--text-secondary);
+    }
+
+    .card-outcome strong {
+      color: var(--accent-teal);
+      font-weight: 700;
     }
 
     /* Bullet Lists inside Cards */
@@ -311,197 +464,212 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 1.1rem;
     }
 
     .card-bullets li {
       position: relative;
-      padding-left: 20px;
-      font-size: 15px;
-      line-height: 1.42;
+      padding-left: 1.35rem;
+      font-size: 0.95rem;
+      line-height: 1.58;
       color: var(--text-secondary);
     }
 
     .card-bullets li strong {
-      font-weight: 800;
       color: var(--text-primary);
+      font-weight: 600;
     }
 
     .card-bullets li::before {
-      content: "•";
+      content: "▹";
       position: absolute;
-      left: 2px;
+      left: 0;
       top: 0;
-      font-weight: 800;
-      color: var(--text-primary);
+      color: var(--accent-amber);
+      font-weight: 700;
     }
 
-    /* Slide 02: Two-Column Comparison Table */
-    .comparison-table-wrap {
-      flex: 1;
-      margin-bottom: 18px;
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
+    /* Data & Comparison Tables */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
     }
 
     .comparison-table {
       width: 100%;
-      height: 100%;
       border-collapse: collapse;
-      border: 1px solid var(--table-border);
-      table-layout: fixed;
+      min-width: 36rem;
     }
 
     .comparison-table th {
-      font-size: 15.5px;
-      font-weight: 800;
+      font-size: 0.925rem;
+      font-weight: 700;
       text-align: left;
-      padding: 12px 20px;
-      border: 1px solid var(--table-border);
+      padding: 1rem 1.35rem;
+      border-bottom: 1px solid var(--border-strong);
     }
 
     .comparison-table th.th-positive {
-      background: #E2F2EA;
-      color: #0F5132;
-      border-top: 5px solid #0D9488;
+      background: var(--accent-green-soft);
+      color: var(--accent-green);
+      border-top: 3px solid var(--accent-green);
+      border-right: 1px solid var(--border-subtle);
     }
 
     .comparison-table th.th-shortfall {
-      background: var(--amber-bg);
-      color: var(--amber-text);
-      border-top: 5px solid var(--amber-border);
+      background: var(--accent-warn-soft);
+      color: var(--accent-warn);
+      border-top: 3px solid var(--accent-warn);
     }
 
     .comparison-table td {
-      padding: 13px 20px;
-      font-size: 14.8px;
-      line-height: 1.38;
+      padding: 1.1rem 1.35rem;
+      font-size: 0.935rem;
+      line-height: 1.55;
       color: var(--text-secondary);
-      border: 1px solid var(--table-border);
-      vertical-align: middle;
+      border-bottom: 1px solid var(--border-subtle);
+      vertical-align: top;
     }
 
-    .comparison-table tbody tr:nth-child(odd) td {
-      background: #FFFFFF;
+    .comparison-table td:first-child {
+      border-right: 1px solid var(--border-subtle);
+    }
+
+    .comparison-table tbody tr:last-child td {
+      border-bottom: none;
     }
 
     .comparison-table tbody tr:nth-child(even) td {
-      background: #F8FAFC;
+      background: rgba(255, 255, 255, 0.015);
     }
 
     .comparison-table td strong {
-      font-weight: 800;
       color: var(--text-primary);
+      font-weight: 600;
     }
 
-    .comparison-table td em {
-      color: var(--text-muted);
-      font-style: italic;
+    .comparison-table td a.sec-ref {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--accent-amber);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      margin-left: 0.25rem;
     }
 
-    /* Slide 03: Two-Card Split Grid */
-    .cards-grid-two-equal {
+    /* Two-Column Split Grids */
+    .split-grid {
       display: grid;
-      grid-template-columns: 0.96fr 1.04fr;
-      gap: 22px;
-      flex: 1;
-      margin-bottom: 18px;
-      min-height: 0;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
+      gap: 1.5rem;
+      align-items: stretch;
     }
 
     .before-after-table {
       width: 100%;
       border-collapse: collapse;
-      border: 1px solid var(--table-border);
-      margin-bottom: 14px;
-      table-layout: fixed;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 1.4rem;
     }
 
     .before-after-table th {
-      font-size: 13px;
-      font-weight: 800;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       text-align: left;
-      padding: 7px 12px;
-      border: 1px solid var(--table-border);
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid var(--border-subtle);
     }
 
     .before-after-table th.ba-before {
-      background: #F1F5F9;
-      color: #334155;
+      background: rgba(148, 163, 184, 0.1);
+      color: var(--text-muted);
+      border-right: 1px solid var(--border-subtle);
     }
 
     .before-after-table th.ba-after {
-      background: var(--purple-bg);
-      color: var(--purple-accent);
+      background: var(--accent-purple-soft);
+      color: var(--accent-purple);
     }
 
     .before-after-table td {
-      font-size: 13.2px;
-      line-height: 1.3;
-      padding: 7px 12px;
-      border: 1px solid var(--table-border);
+      font-size: 0.88rem;
+      line-height: 1.45;
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid var(--border-subtle);
       color: var(--text-secondary);
-      background: #FFFFFF;
     }
 
-    .adoption-kicker {
-      font-size: 11.8px;
-      font-weight: 800;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      color: var(--blue-primary);
-      margin-bottom: 8px;
+    .before-after-table td:first-child {
+      border-right: 1px solid var(--border-subtle);
+      color: var(--text-muted);
     }
 
+    .before-after-table td:last-child {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .before-after-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Adoption Stats & Stacked Bar */
     .stat-cards-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
     }
 
     .stat-mini-card {
-      background: #FFFFFF;
-      border: 1px solid var(--card-border);
-      border-top: 4px solid var(--blue-primary);
-      padding: 8px 10px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-top: 3px solid var(--accent-blue);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 0.65rem;
       text-align: center;
     }
 
     .stat-mini-card.green {
-      background: var(--green-bg);
-      border-color: var(--green-border);
-      border-top: 4px solid var(--green-primary);
+      background: var(--accent-green-soft);
+      border-color: var(--accent-green-border);
+      border-top: 3px solid var(--accent-green);
     }
 
     .stat-mini-num {
-      font-size: 17px;
+      font-size: 1.15rem;
       font-weight: 800;
-      color: var(--blue-dark);
+      color: var(--text-primary);
       line-height: 1.2;
     }
 
     .stat-mini-card.green .stat-mini-num {
-      color: var(--green-dark);
+      color: var(--accent-green);
     }
 
     .stat-mini-sub {
-      font-size: 11px;
+      font-size: 0.74rem;
       color: var(--text-muted);
-      margin-top: 2px;
+      margin-top: 0.25rem;
     }
 
     .stacked-bar {
       display: flex;
       width: 100%;
-      height: 24px;
-      border-radius: 3px;
+      height: 2rem;
+      border-radius: 6px;
       overflow: hidden;
-      margin-bottom: 8px;
-      font-size: 11.5px;
-      font-weight: 800;
-      color: #FFFFFF;
+      margin-bottom: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #ffffff;
     }
 
     .stacked-seg {
@@ -512,683 +680,760 @@
     }
 
     .repeat-pull-note {
-      font-size: 11.5px;
-      line-height: 1.35;
+      font-size: 0.825rem;
+      line-height: 1.5;
       color: var(--text-secondary);
     }
 
     .repeat-pull-note strong {
       color: var(--text-primary);
-      font-weight: 700;
     }
 
-    /* Slide 04: 3-Step Flow + Full-Width Card */
+    /* 3-Step Flow (Section 04) */
     .flow-steps-row {
       display: grid;
-      grid-template-columns: 1fr 34px 1fr 34px 1fr;
-      align-items: center;
-      margin-bottom: 16px;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 0.75rem;
+      align-items: stretch;
+      margin-bottom: 1.5rem;
     }
 
     .flow-step-box {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-top: 5px solid var(--blue-primary);
-      padding: 13px 18px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-top: 3px solid var(--accent-blue);
+      border-radius: var(--radius-md);
+      padding: 1.15rem 1.25rem;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 0.3rem;
     }
 
     .flow-step-box.connect-box {
-      background: var(--green-bg);
-      border-color: var(--green-border);
-      border-top: 5px solid var(--green-primary);
+      background: var(--accent-green-soft);
+      border-color: var(--accent-green-border);
+      border-top: 3px solid var(--accent-green);
     }
 
     .flow-step-kicker {
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.03em;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--blue-primary);
+      color: var(--accent-blue);
     }
 
     .connect-box .flow-step-kicker {
-      color: var(--green-primary);
+      color: var(--accent-green);
     }
 
     .flow-step-title {
-      font-size: 17.5px;
-      font-weight: 800;
-      color: var(--blue-dark);
-      line-height: 1.22;
-    }
-
-    .connect-box .flow-step-title {
-      color: var(--green-dark);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
     }
 
     .flow-step-sub {
-      font-size: 13.2px;
+      font-size: 0.86rem;
       color: var(--text-secondary);
-      margin-top: 2px;
     }
 
     .flow-arrow {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
-      font-weight: 900;
-      color: var(--blue-primary);
+      font-size: 1.35rem;
+      color: var(--accent-amber);
+      padding-inline: 0.25rem;
     }
 
-    .flow-arrow.green {
-      color: var(--green-primary);
-    }
-
-    .full-width-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-top: 5px solid var(--blue-primary);
-      padding: 18px 24px;
-      flex: 1;
-      margin-bottom: 18px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    /* Slide 05: Two-Card Split Grid */
-    .cards-grid-two {
-      display: grid;
-      grid-template-columns: 1.14fr 0.86fr;
-      gap: 24px;
-      flex: 1;
-      margin-bottom: 18px;
-      min-height: 0;
-    }
-
+    /* Before/After Quote Examples (Section 05) */
     .example-stack {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      gap: 14px;
+      gap: 1rem;
       flex: 1;
-      margin-top: 6px;
+      justify-content: space-between;
     }
 
     .example-box {
-      padding: 13px 18px;
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-sm);
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 0.45rem;
     }
 
     .example-box.before-box {
-      background: var(--before-bg);
-      border: 1px solid #CBD5E1;
-      border-left: 6px solid var(--before-border);
+      background: rgba(148, 163, 184, 0.07);
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--text-muted);
     }
 
     .example-box.after-box {
-      background: var(--purple-bg);
-      border: 1px solid var(--purple-border);
-      border-left: 6px solid var(--purple-accent);
+      background: var(--accent-purple-soft);
+      border: 1px solid var(--accent-purple-border);
+      border-left: 4px solid var(--accent-purple);
     }
 
     .example-box.metric-box {
-      background: var(--callout-bg);
-      border: 1px solid #DCE3EC;
-      border-left: 6px solid var(--blue-primary);
-      font-size: 14.5px;
-      line-height: 1.42;
+      background: var(--accent-amber-soft);
+      border: 1px solid var(--accent-amber-border);
+      border-left: 4px solid var(--accent-amber);
+      font-size: 0.9rem;
       color: var(--text-secondary);
     }
 
     .example-box.metric-box strong {
-      font-weight: 800;
-      color: var(--text-primary);
+      color: var(--accent-amber);
     }
 
     .example-label {
-      font-size: 11.8px;
-      font-weight: 800;
-      letter-spacing: 0.03em;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
     }
 
     .before-box .example-label {
-      color: #374151;
+      color: var(--text-muted);
     }
 
     .after-box .example-label {
-      color: var(--purple-accent);
+      color: var(--accent-purple);
     }
 
     .example-quote {
-      font-size: 14.8px;
-      line-height: 1.42;
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      line-height: 1.5;
       font-style: italic;
       color: var(--text-primary);
     }
 
-    /* Slide 06: 4-Stat Banner + Portable Line + 3-Col Table */
+    /* Section 06: 4-Stat Banner & Principles Table */
     .top-stats-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-      margin-bottom: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
     }
 
     .top-stat-card {
-      background: var(--callout-bg);
-      border: 1px solid var(--card-border);
-      border-top: 5px solid var(--blue-primary);
-      padding: 12px 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-top: 3px solid var(--accent-amber);
+      border-radius: var(--radius-md);
+      padding: 1.15rem 1rem;
       text-align: center;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 0.25rem;
     }
 
     .top-stat-card.green {
-      background: var(--green-bg);
-      border-color: var(--green-border);
-      border-top: 5px solid var(--green-primary);
+      background: var(--accent-green-soft);
+      border-color: var(--accent-green-border);
+      border-top: 3px solid var(--accent-green);
     }
 
     .top-stat-title {
-      font-size: 19px;
+      font-size: 1.25rem;
       font-weight: 800;
-      color: var(--blue-dark);
-      line-height: 1.2;
+      color: var(--text-primary);
     }
 
     .top-stat-card.green .top-stat-title {
-      color: var(--green-dark);
+      color: var(--accent-green);
     }
 
     .top-stat-sub {
-      font-size: 13px;
+      font-size: 0.84rem;
       color: var(--text-secondary);
     }
 
     .portable-line {
-      font-size: 15px;
-      line-height: 1.38;
+      font-size: 0.96rem;
       color: var(--text-secondary);
-      margin-bottom: 14px;
+      margin-bottom: 1.5rem;
+      padding: 0.75rem 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
     }
 
     .portable-line strong {
-      color: var(--blue-dark);
-      font-weight: 800;
-    }
-
-    .principles-table-wrap {
-      flex: 1;
-      margin-bottom: 16px;
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
+      color: var(--accent-amber);
     }
 
     .principles-table {
       width: 100%;
-      height: 100%;
       border-collapse: collapse;
-      border: 1px solid var(--table-border);
-      table-layout: fixed;
+      min-width: 38rem;
     }
 
     .principles-table th {
-      background: #E8F0F8;
-      color: var(--blue-primary);
-      font-size: 14.8px;
-      font-weight: 800;
+      background: var(--bg-elevated);
+      color: var(--accent-amber);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       text-align: left;
-      padding: 10px 16px;
-      border: 1px solid var(--table-border);
+      padding: 0.9rem 1.25rem;
+      border-bottom: 1px solid var(--border-strong);
     }
 
     .principles-table td {
-      padding: 11px 16px;
-      font-size: 14.4px;
-      line-height: 1.36;
+      padding: 1.05rem 1.25rem;
+      font-size: 0.925rem;
+      line-height: 1.55;
       color: var(--text-secondary);
-      border: 1px solid var(--table-border);
-      vertical-align: middle;
+      border-bottom: 1px solid var(--border-subtle);
+      vertical-align: top;
     }
 
-    .principles-table tbody tr:nth-child(odd) td {
-      background: #FFFFFF;
-    }
-
-    .principles-table tbody tr:nth-child(even) td {
-      background: #F8FAFC;
+    .principles-table tbody tr:last-child td {
+      border-bottom: none;
     }
 
     .principles-table td.principle-name {
-      font-weight: 800;
+      font-weight: 700;
       color: var(--text-primary);
-      font-size: 14.6px;
     }
 
-    /* Slide Footer */
-    .slide-footer {
+    /* Next Case Study Footer Navigation */
+    .case-pagination {
+      padding-block: 3rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .pagination-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+      gap: 1.25rem;
+    }
+
+    .pagination-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.35rem 1.5rem;
       display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      font-size: 11.5px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
+      flex-direction: column;
+      gap: 0.35rem;
+      transition: border-color 180ms ease, transform 180ms ease;
+    }
+
+    .pagination-card:hover {
+      border-color: var(--accent-amber-border);
+      transform: translateY(-2px);
+    }
+
+    .pagination-label {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
       text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-amber);
+    }
+
+    .pagination-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .pagination-meta {
+      font-size: 0.85rem;
       color: var(--text-muted);
-      margin-top: 2px;
+    }
+
+    /* Site Footer */
+    .site-footer {
+      padding-block: 2.25rem;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-amber);
+    }
+
+    @media (max-width: 820px) {
+      .flow-steps-row {
+        grid-template-columns: 1fr;
+      }
+      .flow-arrow {
+        transform: rotate(90deg);
+        padding-block: 0.15rem;
+      }
+      .stat-cards-row {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media print {
-      @page {
-        size: 13.333in 7.5in;
-        margin: 0;
-      }
-      body {
-        background: #FFFFFF;
-        padding: 0;
-        gap: 0;
-      }
-      .deck-toolbar {
+      .site-header, .ambient-glow, .case-pagination {
         display: none !important;
       }
-      .slide {
-        box-shadow: none;
-        margin: 0;
-        page-break-after: always;
-        break-after: page;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+      body {
+        background: #ffffff;
+        color: #0f172a;
+      }
+      .case-section, .case-hero {
+        page-break-inside: avoid;
       }
     }
   </style>
 </head>
 <body>
 
-  <nav class="deck-toolbar" aria-label="Case study navigation">
-    <div class="toolbar-left">
-      <a href="index.html#featured-work" class="back-link">&larr; Back to Portfolio</a>
-      <div class="toolbar-title">Case Study 1 of 4 &middot; AI Workflows in UX Research (6 Slides)</div>
-    </div>
-    <div class="toolbar-actions">
-      <div class="project-switcher" aria-label="Other case studies">
-        <a href="ai-workflows.html" class="current">01 AI Workflows</a>
+  <div class="ambient-glow" aria-hidden="true"></div>
+
+  <!-- Unified Portfolio Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand-group">
+        <a href="index.html#featured-work" class="back-btn">&larr; Back to Portfolio</a>
+        <div class="brand-title">Jeremy Mendel, Ph.D. <span>/ Case Study 01 of 04</span></div>
+      </div>
+
+      <nav class="case-switcher" aria-label="Case studies">
+        <a href="ai-workflows.html" class="active" aria-current="page">01 AI Workflows</a>
         <a href="cross-os-rcs.html">02 Cross-OS &amp; RCS</a>
-        <a href="benchmarking-premiumness.html">03 Benchmarking</a>
+        <a href="benchmarking-premiumness.html">03 Benchmarks</a>
         <a href="admob.html">04 Google AdMob</a>
-      </div>
-      <button type="button" onclick="window.print()">Print / Save PDF</button>
-    </div>
-  </nav>
-
-  <!-- ==================== SLIDE 01 ==================== -->
-  <section class="slide" id="slide-01">
-    <div class="slide-eyebrow">01 CASE STUDY OVERVIEW &rsaquo; AI IN UX RESEARCH (2026)</div>
-    <h1 class="slide-title">Scaling UX research rigor and speed with AI workflows</h1>
-    <div class="slide-subtitle">
-      <span class="sub-lead">Speed up the slow parts of research and keep real participants at the center</span>
-      <span class="sub-pipe">|</span>
-      <span>Jeremy Mendel, Ph.D. &middot; UX Research Lead &amp; Manager, Google Messages</span>
+      </nav>
     </div>
 
-    <div class="callout-box callout-top">
-      <div><strong>The problem:</strong> Product teams decide faster than research cycles run, and shortcuts like AI "synthetic users" or unchecked chatbot summaries can mislead.</div>
-      <div><strong>My approach:</strong> I treated AI adoption like a research program. I tested where AI helps and where it fails, built safeguards into shared tools, and validated them with the teams who use them.</div>
-    </div>
-
-    <div class="cards-grid-four">
-      <div class="card">
-        <div class="card-kicker">PROBLEM 1</div>
-        <h2 class="card-heading-blue">Where can AI be trusted in real research?</h2>
-        <p class="card-body-text">I ran a national survey with AI assisting every step, then trained fellow researchers on what I learned.</p>
-        <div class="card-outcome-box">
-          <strong>Outcome:</strong> AI earned top ratings in 4 of 10 study phases.
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-kicker">PROBLEM 2</div>
-        <h2 class="card-heading-blue">Past research was hard to find and trust</h2>
-        <p class="card-body-text">I built a synthesis tool with strict evidence rules and led a pilot of our discovery tool with product teams.</p>
-        <div class="card-outcome-box">
-          <strong>Outcome:</strong> 117 users across 90 teams, with reviews in about 40 min.
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-kicker">PROBLEM 3</div>
-        <h2 class="card-heading-blue">Survey scores didn't explain why</h2>
-        <p class="card-body-text">I built a survey planning tool and shipped production code so results can be broken down by feature use.</p>
-        <div class="card-outcome-box">
-          <strong>Outcome:</strong> Survey results split by feature use in a 1B+ user app.
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-kicker">PROBLEM 4</div>
-        <h2 class="card-heading-blue">AI drafts weren't<br>research-grade</h2>
-        <p class="card-body-text">I turned my own editing habits into shared writing and statistics standards.</p>
-        <div class="card-outcome-box">
-          <strong>Outcome:</strong> 25 senior-level rules now built into shared tools.
-        </div>
-      </div>
-    </div>
-
-    <div class="callout-box callout-bottom">
-      <div><strong>Takeaway:</strong> We sped up research and raised standards for researchers and product partners by testing our AI tools with the same rigor we apply to user-facing products.</div>
-    </div>
-
-    <div class="slide-footer">UXR CASE STUDY &middot; AI WORKFLOWS</div>
-  </section>
-
-  <!-- ==================== SLIDE 02 ==================== -->
-  <section class="slide" id="slide-02">
-    <div class="slide-eyebrow">02 PROBLEM 1 OF 4 &rsaquo; WHERE CAN AI BE TRUSTED IN REAL RESEARCH?</div>
-    <h1 class="slide-title">Testing AI on a real study before asking the team to use it</h1>
-
-    <div class="callout-box callout-top">
-      <div><strong>The problem:</strong> Researchers had no evidence on where AI saves time and where it adds errors, and guessing wrong could put bad data in front of product teams.</div>
-      <div><strong>What I did:</strong> I ran a national US survey (nearly 5,000 respondents) with AI assisting all 10 phases, then turned the lessons into a 36-slide playbook for fellow researchers.</div>
-    </div>
-
-    <div class="comparison-table-wrap">
-      <table class="comparison-table">
-        <thead>
-          <tr>
-            <th class="th-positive" style="width: 50%;">Where AI saved real time (rated 4 to 5 out of 5)</th>
-            <th class="th-shortfall" style="width: 50%;">Where AI fell short (what I built safeguards for)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Survey setup.</strong> Built the full survey, including separate iPhone and Android paths, in minutes instead of hours.</td>
-            <td><strong>Overstated comparisons.</strong> Claimed older studies matched new results without checking how they differed. <em>(Slides 3 and 5)</em></td>
-          </tr>
-          <tr>
-            <td><strong>Pre-launch testing.</strong> Took the survey like a respondent on desktop and mobile and caught a hidden display bug.</td>
-            <td><strong>Inconsistent statistics.</strong> Changed table formats between sections and dropped effect sizes. <em>(Slide 5)</em></td>
-          </tr>
-          <tr>
-            <td><strong>Data cleaning.</strong> Compared quality filters side by side so I could keep iPhone and Android groups balanced.</td>
-            <td><strong>Overconfident writing.</strong> Defaulted to dense, passive prose and claims the data didn't support. <em>(Slide 5)</em></td>
-          </tr>
-          <tr>
-            <td><strong>Advanced analysis.</strong> Ran feature-priority models (MaxDiff and TURF) and subgroup comparisons with effect sizes.</td>
-            <td><strong>Lost reviewer feedback.</strong> Erased colleagues' comments and broke formatting when updating shared docs. <em>(Slide 5)</em></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="callout-box callout-bottom">
-      <div><strong>Takeaway:</strong> AI reliably sped up the mechanical parts of a study, and its weak spots in synthesis and reporting set the roadmap for the shared tools that followed.</div>
-    </div>
-
-    <div class="slide-footer">UXR CASE STUDY &middot; AI WORKFLOWS</div>
-  </section>
-
-  <!-- ==================== SLIDE 03 ==================== -->
-  <section class="slide" id="slide-03">
-    <div class="slide-eyebrow">03 PROBLEM 2 OF 4 &rsaquo; PAST RESEARCH WAS HARD TO FIND AND TRUST</div>
-    <h1 class="slide-title">Making past research easy to find and safe to trust</h1>
-
-    <div class="callout-box callout-top">
-      <div><strong>The problem:</strong> Years of research sat buried in old decks and spreadsheets. Teams either spent days digging or used AI search, which treated old product pitches and opinions as if they were user evidence.</div>
-    </div>
-
-    <div class="cards-grid-two-equal">
-      <div class="card">
-        <div class="card-kicker" style="margin-bottom: 12px;">WHAT I DID</div>
-        <ul class="card-bullets" style="gap: 15px;">
-          <li><strong>Built a synthesis tool with strict evidence rules.</strong> It draws on past UX studies, company announcements, hands-on press reviews, and public user discussions. Product specs, mockups, and opinions never count as user evidence.</li>
-          <li><strong>Kept researchers in the loop.</strong> Every report lists the questions the evidence can't answer and names a UX researcher to talk to.</li>
-          <li><strong>Improved our discovery tool through a pilot.</strong> PMs, designers, researchers, and data scientists flagged gaps. I added public user sentiment, restored older foundational studies, and kept analytics separate from user research.</li>
+    <!-- Sticky Section Jump Bar -->
+    <div class="subnav-bar">
+      <div class="container subnav-inner">
+        <ul class="subnav-links">
+          <li><a href="#overview"><span class="num">01</span>Overview</a></li>
+          <li><a href="#problem-1"><span class="num">02</span>Testing AI Rigor</a></li>
+          <li><a href="#problem-2"><span class="num">03</span>Synthesis &amp; Discovery</a></li>
+          <li><a href="#problem-3"><span class="num">04</span>In-App Survey Code</a></li>
+          <li><a href="#problem-4"><span class="num">05</span>Reporting Standards</a></li>
+          <li><a href="#principles"><span class="num">06</span>Transferable Principles</a></li>
         </ul>
+        <button type="button" class="print-btn" onclick="window.print()">Print / Save PDF</button>
       </div>
+    </div>
+  </header>
 
-      <div class="card" style="padding: 18px 22px 14px 22px;">
-        <div class="card-kicker" style="margin-bottom: 8px;">WHAT CHANGED</div>
-        <table class="before-after-table">
-          <thead>
-            <tr>
-              <th class="ba-before" style="width: 50%;">Before</th>
-              <th class="ba-after" style="width: 50%;">After</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Days digging through old decks</td>
-              <td>About 40 minutes per synthesis</td>
-            </tr>
-            <tr>
-              <td>Specs and opinions cited as facts</td>
-              <td>Only real user research counts</td>
-            </tr>
-            <tr>
-              <td>Studies over 2 years old dropped</td>
-              <td>Older studies kept, dates labeled</td>
-            </tr>
-            <tr>
-              <td>No clear expert to follow up with</td>
-              <td>Open questions name a researcher</td>
-            </tr>
-          </tbody>
-        </table>
+  <main>
+    <!-- ==================== 01: CASE STUDY OVERVIEW ==================== -->
+    <section class="case-hero" id="overview">
+      <div class="container">
+        <div class="eyebrow-row">
+          <span class="eyebrow-badge">01 &middot; AI in UX Research</span>
+          <span class="eyebrow-meta">Google Messages UXR &middot; 2026 &middot; UX Research Lead &amp; Manager</span>
+        </div>
 
-        <div class="adoption-kicker">SYNTHESIS TOOL ADOPTION &middot; FIRST 3 MONTHS</div>
-        <div class="stat-cards-row">
-          <div class="stat-mini-card">
-            <div class="stat-mini-num">117 users</div>
-            <div class="stat-mini-sub">90 teams &middot; 9 product areas</div>
+        <h1 class="hero-title">
+          Scaling UX research <em>rigor and speed</em> with AI workflows
+        </h1>
+
+        <p class="hero-subtitle">
+          <strong>Speed up the slow parts of research and keep real participants at the center.</strong> Treated AI adoption like a research program—testing where AI helps and where it fails, building strict safeguards into shared tools, and validating them with the product teams who use them.
+        </p>
+
+        <div class="callout-banner">
+          <div><strong>The problem:</strong> Product teams decide faster than research cycles run, and shortcuts like AI "synthetic users" or unchecked chatbot summaries can mislead.</div>
+          <div><strong>My approach:</strong> I treated AI adoption like a research program. I tested where AI helps and where it fails, built safeguards into shared tools, and validated them with the teams who use them.</div>
+        </div>
+
+        <div class="cards-grid-four">
+          <a href="#problem-1" class="case-card">
+            <div class="card-kicker">Problem 1</div>
+            <h2 class="card-heading">Where can AI be trusted in real research?</h2>
+            <p class="card-body">I ran a national survey with AI assisting every step, then trained fellow researchers on what I learned.</p>
+            <div class="card-outcome">
+              <strong>Outcome:</strong> AI earned top ratings in 4 of 10 study phases.
+            </div>
+          </a>
+
+          <a href="#problem-2" class="case-card">
+            <div class="card-kicker">Problem 2</div>
+            <h2 class="card-heading">Past research was hard to find and trust</h2>
+            <p class="card-body">I built a synthesis tool with strict evidence rules and led a pilot of our discovery tool with product teams.</p>
+            <div class="card-outcome">
+              <strong>Outcome:</strong> 117 users across 90 teams, with reviews in about 40 min.
+            </div>
+          </a>
+
+          <a href="#problem-3" class="case-card">
+            <div class="card-kicker">Problem 3</div>
+            <h2 class="card-heading">Survey scores didn't explain why</h2>
+            <p class="card-body">I built a survey planning tool and shipped production code so results can be broken down by feature use.</p>
+            <div class="card-outcome">
+              <strong>Outcome:</strong> Survey results split by feature use in a 1B+ user app.
+            </div>
+          </a>
+
+          <a href="#problem-4" class="case-card">
+            <div class="card-kicker">Problem 4</div>
+            <h2 class="card-heading">AI drafts weren't research-grade</h2>
+            <p class="card-body">I turned my own editing habits into shared writing and statistics standards.</p>
+            <div class="card-outcome">
+              <strong>Outcome:</strong> 25 senior-level rules now built into shared tools.
+            </div>
+          </a>
+        </div>
+
+        <div class="callout-takeaway">
+          <strong>Takeaway</strong> We sped up research and raised standards for researchers and product partners by testing our AI tools with the same rigor we apply to user-facing products.
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 02: PROBLEM 1 OF 4 ==================== -->
+    <section class="case-section" id="problem-1">
+      <div class="container">
+        <div class="section-eyebrow">02 / Problem 1 of 4 &rsaquo; Where Can AI Be Trusted in Real Research?</div>
+        <h2 class="section-title">Testing AI on a real study before asking the team to use it</h2>
+
+        <div class="callout-banner">
+          <div><strong>The problem:</strong> Researchers had no evidence on where AI saves time and where it adds errors, and guessing wrong could put bad data in front of product teams.</div>
+          <div><strong>What I did:</strong> I ran a national US survey (nearly 5,000 respondents) with AI assisting all 10 phases, then turned the lessons into a 36-slide playbook for fellow researchers.</div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th class="th-positive" style="width: 50%;">Where AI saved real time (rated 4 to 5 out of 5)</th>
+                <th class="th-shortfall" style="width: 50%;">Where AI fell short (what I built safeguards for)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Survey setup.</strong> Built the full survey, including separate iPhone and Android paths, in minutes instead of hours.</td>
+                <td><strong>Overstated comparisons.</strong> Claimed older studies matched new results without checking how they differed. <a href="#problem-2" class="sec-ref">(See Sections 3 &amp; 5)</a></td>
+              </tr>
+              <tr>
+                <td><strong>Pre-launch testing.</strong> Took the survey like a respondent on desktop and mobile and caught a hidden display bug.</td>
+                <td><strong>Inconsistent statistics.</strong> Changed table formats between sections and dropped effect sizes. <a href="#problem-4" class="sec-ref">(See Section 5)</a></td>
+              </tr>
+              <tr>
+                <td><strong>Data cleaning.</strong> Compared quality filters side by side so I could keep iPhone and Android groups balanced.</td>
+                <td><strong>Overconfident writing.</strong> Defaulted to dense, passive prose and claims the data didn't support. <a href="#problem-4" class="sec-ref">(See Section 5)</a></td>
+              </tr>
+              <tr>
+                <td><strong>Advanced analysis.</strong> Ran feature-priority models (MaxDiff and TURF) and subgroup comparisons with effect sizes.</td>
+                <td><strong>Lost reviewer feedback.</strong> Erased colleagues' comments and broke formatting when updating shared docs. <a href="#problem-4" class="sec-ref">(See Section 5)</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout-takeaway">
+          <strong>Takeaway</strong> AI reliably sped up the mechanical parts of a study, and its weak spots in synthesis and reporting set the roadmap for the shared tools that followed.
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 03: PROBLEM 2 OF 4 ==================== -->
+    <section class="case-section" id="problem-2">
+      <div class="container">
+        <div class="section-eyebrow">03 / Problem 2 of 4 &rsaquo; Past Research Was Hard to Find and Trust</div>
+        <h2 class="section-title">Making past research easy to find and safe to trust</h2>
+
+        <div class="callout-banner">
+          <div><strong>The problem:</strong> Years of research sat buried in old decks and spreadsheets. Teams either spent days digging or used AI search, which treated old product pitches and opinions as if they were user evidence.</div>
+        </div>
+
+        <div class="split-grid">
+          <div class="case-card">
+            <div class="card-kicker" style="margin-bottom: 1rem;">What I Did</div>
+            <ul class="card-bullets">
+              <li><strong>Built a synthesis tool with strict evidence rules.</strong> It draws on past UX studies, company announcements, hands-on press reviews, and public user discussions. Product specs, mockups, and opinions never count as user evidence.</li>
+              <li><strong>Kept researchers in the loop.</strong> Every report lists the questions the evidence can't answer and names a UX researcher to talk to.</li>
+              <li><strong>Improved our discovery tool through a pilot.</strong> PMs, designers, researchers, and data scientists flagged gaps. I added public user sentiment, restored older foundational studies, and kept analytics separate from user research.</li>
+            </ul>
           </div>
-          <div class="stat-mini-card">
-            <div class="stat-mini-num">397 sessions</div>
-            <div class="stat-mini-sub">460 total synthesis runs</div>
-          </div>
-          <div class="stat-mini-card green">
-            <div class="stat-mini-num">~60% non-UXR</div>
-            <div class="stat-mini-sub">2/3 of all sessions</div>
+
+          <div class="case-card">
+            <div class="card-kicker" style="margin-bottom: 0.85rem;">What Changed</div>
+            <table class="before-after-table">
+              <thead>
+                <tr>
+                  <th class="ba-before" style="width: 50%;">Before</th>
+                  <th class="ba-after" style="width: 50%;">After</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Days digging through old decks</td>
+                  <td>About 40 minutes per synthesis</td>
+                </tr>
+                <tr>
+                  <td>Specs and opinions cited as facts</td>
+                  <td>Only real user research counts</td>
+                </tr>
+                <tr>
+                  <td>Studies over 2 years old dropped</td>
+                  <td>Older studies kept, dates labeled</td>
+                </tr>
+                <tr>
+                  <td>No clear expert to follow up with</td>
+                  <td>Open questions name a researcher</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="card-kicker" style="color: var(--accent-teal); margin-bottom: 0.65rem;">Synthesis Tool Adoption &middot; First 3 Months</div>
+            <div class="stat-cards-row">
+              <div class="stat-mini-card">
+                <div class="stat-mini-num">117 users</div>
+                <div class="stat-mini-sub">90 teams &middot; 9 product areas</div>
+              </div>
+              <div class="stat-mini-card">
+                <div class="stat-mini-num">397 sessions</div>
+                <div class="stat-mini-sub">460 total synthesis runs</div>
+              </div>
+              <div class="stat-mini-card green">
+                <div class="stat-mini-num">~60% non-UXR</div>
+                <div class="stat-mini-sub">2/3 of all sessions</div>
+              </div>
+            </div>
+
+            <div class="stacked-bar" role="img" aria-label="Session distribution: UXR 40%, UX 22%, PM 20%, Eng 12%, Other 6%">
+              <div class="stacked-seg" style="width: 40%; background: #0284c7;">UXR 40%</div>
+              <div class="stacked-seg" style="width: 22%; background: #4f46e5;">UX 22%</div>
+              <div class="stacked-seg" style="width: 20%; background: #0d9488;">PM 20%</div>
+              <div class="stacked-seg" style="width: 12%; background: #16a34a;">Eng 12%</div>
+              <div class="stacked-seg" style="width: 6%; background: #475569;">6%</div>
+            </div>
+
+            <div class="repeat-pull-note">
+              <strong>Repeat pull:</strong> UX design, writing &amp; eng (5.0 sessions/user) and PMs (4.3/user) used it most often, ahead of UXR (2.9) and Eng (1.3). Strategy, ops &amp; marketing: 6%.
+            </div>
           </div>
         </div>
 
-        <div class="stacked-bar">
-          <div class="stacked-seg" style="width: 40%; background: #0B66C3;">UXR 40%</div>
-          <div class="stacked-seg" style="width: 22%; background: #1D4ED8;">UX 22%</div>
-          <div class="stacked-seg" style="width: 20%; background: #0D9488;">PM 20%</div>
-          <div class="stacked-seg" style="width: 12%; background: #15803D;">Eng 12%</div>
-          <div class="stacked-seg" style="width: 6%; background: #64748B;">6%</div>
-        </div>
-
-        <div class="repeat-pull-note">
-          <strong>Repeat pull:</strong> UX design, writing &amp; eng (5.0 sessions/user) and PMs (4.3/user) used it most often, ahead of UXR (2.9) and Eng (1.3). Strategy, ops &amp; marketing: 6%.
+        <div class="callout-takeaway">
+          <strong>Takeaway</strong> In just over three months, 117 people across 90 teams ran nearly 400 syntheses, with about 60% of users outside UX research. Reviews take about 40 minutes instead of days and route open questions to a researcher.
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="callout-box callout-bottom">
-      <div><strong>Takeaway:</strong> In just over three months, 117 people across 90 teams ran nearly 400 syntheses, with about 60% of users outside UX research. Reviews take about 40 minutes instead of days and route open questions to a researcher.</div>
-    </div>
+    <!-- ==================== 04: PROBLEM 3 OF 4 ==================== -->
+    <section class="case-section" id="problem-3">
+      <div class="container">
+        <div class="section-eyebrow">04 / Problem 3 of 4 &rsaquo; Survey Scores Didn't Explain Why</div>
+        <h2 class="section-title">Turning in-app survey scores into answers teams can act on</h2>
 
-    <div class="slide-footer">UXR CASE STUDY &middot; AI WORKFLOWS</div>
-  </section>
+        <div class="callout-banner">
+          <div><strong>The problem:</strong> In-app surveys showed whether satisfaction moved, but not why. Planning each one took days across research, product, engineering, and data science, and Google Messages (over 1 billion monthly users) couldn't link responses to how people used a feature.</div>
+        </div>
 
-  <!-- ==================== SLIDE 04 ==================== -->
-  <section class="slide" id="slide-04">
-    <div class="slide-eyebrow">04 PROBLEM 3 OF 4 &rsaquo; SURVEY SCORES DIDN'T EXPLAIN WHY</div>
-    <h1 class="slide-title">Turning in-app survey scores into answers teams can act on</h1>
+        <div class="flow-steps-row">
+          <div class="flow-step-box">
+            <div class="flow-step-kicker">1. Plan</div>
+            <div class="flow-step-title">1-page plan in minutes</div>
+            <div class="flow-step-sub">Best practices plus researcher sign-off</div>
+          </div>
 
-    <div class="callout-box callout-top">
-      <div><strong>The problem:</strong> In-app surveys showed whether satisfaction moved, but not why. Planning each one took days across research, product, engineering, and data science, and Google Messages (over 1 billion monthly users) couldn't link responses to how people used a feature.</div>
-    </div>
+          <div class="flow-arrow" aria-hidden="true">&rarr;</div>
 
-    <div class="flow-steps-row">
-      <div class="flow-step-box">
-        <div class="flow-step-kicker">1. PLAN</div>
-        <div class="flow-step-title">1-page plan in minutes</div>
-        <div class="flow-step-sub">Best practices plus researcher sign-off</div>
+          <div class="flow-step-box connect-box">
+            <div class="flow-step-kicker">2. Connect</div>
+            <div class="flow-step-title">Responses linked to feature use</div>
+            <div class="flow-step-sub">Production app code I wrote and shipped</div>
+          </div>
+
+          <div class="flow-arrow" aria-hidden="true">&rarr;</div>
+
+          <div class="flow-step-box">
+            <div class="flow-step-kicker">3. Analyze</div>
+            <div class="flow-step-title">Results by real feature use</div>
+            <div class="flow-step-sub">Compare feature users with non-users</div>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="card-kicker" style="margin-bottom: 1rem;">What I Did</div>
+          <ul class="card-bullets">
+            <li><strong>Built a survey planning tool.</strong> It turns a feature idea or draft into a 1-page plan with research-backed question design, the right timing, and lessons from similar past surveys. It checks that the app records what the survey needs, and plans drafted by PMs or engineers require a UX researcher's sign-off.</li>
+            <li><strong>Shipped the production code myself.</strong> Rather than wait quarters for engineering time, I used AI-assisted coding to update Google Messages so each survey response can carry product details, like which features someone uses. Android engineers and privacy reviewers approved it.</li>
+            <li><strong>Built privacy in from the start.</strong> Responses aren't tied to anyone's account, people see what's shared, and nothing is sent unless they take the survey.</li>
+          </ul>
+        </div>
+
+        <div class="callout-takeaway">
+          <strong>Takeaway</strong> Teams can now go from a feature idea to survey results broken down by real feature use, without waiting quarters for engineering.
+        </div>
       </div>
+    </section>
 
-      <div class="flow-arrow">&#10140;</div>
+    <!-- ==================== 05: PROBLEM 4 OF 4 ==================== -->
+    <section class="case-section" id="problem-4">
+      <div class="container">
+        <div class="section-eyebrow">05 / Problem 4 of 4 &rsaquo; AI Drafts Weren't Research-Grade</div>
+        <h2 class="section-title">Keeping AI-drafted research readouts clear and accurate</h2>
 
-      <div class="flow-step-box connect-box">
-        <div class="flow-step-kicker">2. CONNECT</div>
-        <div class="flow-step-title">Responses linked to feature use</div>
-        <div class="flow-step-sub">Production app code I wrote and shipped</div>
+        <div class="callout-banner">
+          <div><strong>The problem:</strong> AI drafts reports in seconds, but the drafts often overstate findings, report statistics inconsistently, and bury the takeaway. On one survey readout, nearly half my follow-up requests went to fixing those issues.</div>
+        </div>
+
+        <div class="split-grid">
+          <div class="case-card">
+            <div class="card-kicker" style="margin-bottom: 1rem;">What I Did</div>
+            <ul class="card-bullets">
+              <li><strong>Turned my editing habits into shared standards.</strong> I studied my own revision history and turned 25 recurring fixes into rules that two shared tools apply automatically.</li>
+              <li><strong>Writing that reads like a senior researcher's.</strong> The writing tool ties each claim to the data and population studied, rewrites in plain active language, and ends with a fresh-eyes review.</li>
+              <li><strong>Statistics anyone can read.</strong> Results state confidence in plain words, show effect sizes alongside, and flag groups too small to trust.</li>
+              <li><strong>Colleagues' comments stay intact.</strong> Updates to shared documents keep reviewers' feedback in place.</li>
+            </ul>
+          </div>
+
+          <div class="case-card">
+            <div class="card-kicker" style="margin-bottom: 0.85rem;">What Changed &middot; Illustrative Example</div>
+            <div class="example-stack">
+              <div class="example-box before-box">
+                <div class="example-label">Before &middot; Typical AI Draft</div>
+                <div class="example-quote">"Users overwhelmingly prefer the new design, proving it will boost engagement."</div>
+              </div>
+
+              <div class="example-box after-box">
+                <div class="example-label">After &middot; With Shared Standards</div>
+                <div class="example-quote">"More users preferred the new design. We're confident at the 95% level (p &lt; .05), but the effect is small, so a follow-up test should check engagement."</div>
+              </div>
+
+              <div class="example-box metric-box">
+                <div><strong>36 to 18 words:</strong> My own edits halved the average summary sentence on a strategy paper. The tools now apply those same rules.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout-takeaway">
+          <strong>Takeaway</strong> Shared writing and statistics tools automate the fixes that once took nearly half my follow-up requests and give junior researchers and partners senior standards by default.
+        </div>
       </div>
+    </section>
 
-      <div class="flow-arrow green">&#10140;</div>
+    <!-- ==================== 06: TRANSFERABLE PRINCIPLES ==================== -->
+    <section class="case-section" id="principles">
+      <div class="container">
+        <div class="section-eyebrow">06 / What Transfers &rsaquo; Lessons for Any Research Team</div>
+        <h2 class="section-title">Four principles that transfer to any research organization</h2>
 
-      <div class="flow-step-box">
-        <div class="flow-step-kicker">3. ANALYZE</div>
-        <div class="flow-step-title">Results by real feature use</div>
-        <div class="flow-step-sub">Compare feature users with non-users</div>
+        <div class="top-stats-grid">
+          <div class="top-stat-card">
+            <div class="top-stat-title">117 users &middot; 90 teams</div>
+            <div class="top-stat-sub">~400 syntheses (about 40 min each)</div>
+          </div>
+
+          <div class="top-stat-card">
+            <div class="top-stat-title">36-slide playbook</div>
+            <div class="top-stat-sub">Trained fellow researchers</div>
+          </div>
+
+          <div class="top-stat-card green">
+            <div class="top-stat-title">1B+ monthly users</div>
+            <div class="top-stat-sub">App with feature-level survey results</div>
+          </div>
+
+          <div class="top-stat-card">
+            <div class="top-stat-title">25 shared rules</div>
+            <div class="top-stat-sub">Senior writing &amp; stats standards</div>
+          </div>
+        </div>
+
+        <div class="portable-line">
+          <strong>Portable by design:</strong> Any research team can apply this approach with commercially available AI tools and standard survey platforms.
+        </div>
+
+        <div class="table-wrapper">
+          <table class="principles-table">
+            <thead>
+              <tr>
+                <th style="width: 28%;">Principle</th>
+                <th style="width: 36%;">In practice</th>
+                <th style="width: 36%;">Why it matters</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="principle-name">1. Automate the mechanics, keep people as ground truth</td>
+                <td>Let AI handle survey setup, testing, data cleaning, and archive searches around real participants.</td>
+                <td>Teams save days of manual work without the risks of synthetic users.</td>
+              </tr>
+              <tr>
+                <td class="principle-name">2. Build rigor into shared tools</td>
+                <td>Put evidence rules, survey best practices, and statistics standards into tools everyone uses.</td>
+                <td>Junior researchers, PMs, and designers get senior-level guardrails by default.</td>
+              </tr>
+              <tr>
+                <td class="principle-name">3. Keep researchers in the loop</td>
+                <td>Design self-serve tools to flag open questions and route teams to the right researcher.</td>
+                <td>Partners drove 2/3 of synthesis sessions and still routed open questions to researchers.</td>
+              </tr>
+              <tr>
+                <td class="principle-name">4. Unblock measurement directly</td>
+                <td>When a missing app change blocks research, ship it with engineering and privacy review.</td>
+                <td>Teams get the data they need without waiting quarters.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout-takeaway">
+          <strong>Takeaway</strong> Research teams can move at product speed and protect data quality when they pair mixed-methods rigor and team training with shared AI safeguards.
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="full-width-card">
-      <div class="card-kicker" style="margin-bottom: 12px;">WHAT I DID</div>
-      <ul class="card-bullets" style="gap: 13px;">
-        <li><strong>Built a survey planning tool.</strong> It turns a feature idea or draft into a 1-page plan with research-backed question design, the right timing, and lessons from similar past surveys. It checks that the app records what the survey needs, and plans drafted by PMs or engineers require a UX researcher's sign-off.</li>
-        <li><strong>Shipped the production code myself.</strong> Rather than wait quarters for engineering time, I used AI-assisted coding to update Google Messages so each survey response can carry product details, like which features someone uses. Android engineers and privacy reviewers approved it.</li>
-        <li><strong>Built privacy in from the start.</strong> Responses aren't tied to anyone's account, people see what's shared, and nothing is sent unless they take the survey.</li>
+    <!-- Case Study Pagination -->
+    <nav class="case-pagination" aria-label="Case study pagination">
+      <div class="container pagination-grid">
+        <a href="index.html#featured-work" class="pagination-card">
+          <span class="pagination-label">&larr; Portfolio Overview</span>
+          <span class="pagination-title">Back to All Featured Work &amp; Experience</span>
+          <span class="pagination-meta">Jeremy Mendel, Ph.D. &middot; UX Research Leader</span>
+        </a>
+
+        <a href="cross-os-rcs.html" class="pagination-card">
+          <span class="pagination-label">Next Case Study (02 of 04) &rarr;</span>
+          <span class="pagination-title">Solving the cross-OS messaging divide and scaling RCS</span>
+          <span class="pagination-meta">25+ studies across 13 methods driving 1B+ Android RCS users &amp; iOS 18 interoperability</span>
+        </a>
+      </div>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 Jeremy Mendel, Ph.D. &middot; Greater Seattle Area.</p>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="mailto:Jeremy.Mendel@gmail.com">Jeremy.Mendel@gmail.com</a></li>
+        <li><a href="https://www.linkedin.com/in/jeremymendel/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       </ul>
     </div>
-
-    <div class="callout-box callout-bottom">
-      <div><strong>Takeaway:</strong> Teams can now go from a feature idea to survey results broken down by real feature use, without waiting quarters for engineering.</div>
-    </div>
-
-    <div class="slide-footer">UXR CASE STUDY &middot; AI WORKFLOWS</div>
-  </section>
-
-  <!-- ==================== SLIDE 05 ==================== -->
-  <section class="slide" id="slide-05">
-    <div class="slide-eyebrow">05 PROBLEM 4 OF 4 &rsaquo; AI DRAFTS WEREN'T RESEARCH-GRADE</div>
-    <h1 class="slide-title">Keeping AI-drafted research readouts clear and accurate</h1>
-
-    <div class="callout-box callout-top">
-      <div><strong>The problem:</strong> AI drafts reports in seconds, but the drafts often overstate findings, report statistics inconsistently, and bury the takeaway. On one survey readout, nearly half my follow-up requests went to fixing those issues.</div>
-    </div>
-
-    <div class="cards-grid-two">
-      <div class="card">
-        <div class="card-kicker" style="margin-bottom: 14px;">WHAT I DID</div>
-        <ul class="card-bullets" style="gap: 16px;">
-          <li><strong>Turned my editing habits into shared standards.</strong> I studied my own revision history and turned 25 recurring fixes into rules that two shared tools apply automatically.</li>
-          <li><strong>Writing that reads like a senior researcher's.</strong> The writing tool ties each claim to the data and population studied, rewrites in plain active language, and ends with a fresh-eyes review.</li>
-          <li><strong>Statistics anyone can read.</strong> Results state confidence in plain words, show effect sizes alongside, and flag groups too small to trust.</li>
-          <li><strong>Colleagues' comments stay intact.</strong> Updates to shared documents keep reviewers' feedback in place.</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <div class="card-kicker" style="margin-bottom: 10px;">WHAT CHANGED &middot; ILLUSTRATIVE EXAMPLE</div>
-        <div class="example-stack">
-          <div class="example-box before-box">
-            <div class="example-label">BEFORE &middot; TYPICAL AI DRAFT</div>
-            <div class="example-quote">"Users overwhelmingly prefer the new design, proving it will boost engagement."</div>
-          </div>
-
-          <div class="example-box after-box">
-            <div class="example-label">AFTER &middot; WITH SHARED STANDARDS</div>
-            <div class="example-quote">"More users preferred the new design. We're confident at the 95% level (p &lt; .05), but the effect is small, so a follow-up test should check engagement."</div>
-          </div>
-
-          <div class="example-box metric-box">
-            <div><strong>36 to 18 words:</strong> My own edits halved the average summary sentence on a strategy paper. The tools now apply those same rules.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="callout-box callout-bottom">
-      <div><strong>Takeaway:</strong> Shared writing and statistics tools automate the fixes that once took nearly half my follow-up requests and give junior researchers and partners senior standards by default.</div>
-    </div>
-
-    <div class="slide-footer">UXR CASE STUDY &middot; AI WORKFLOWS</div>
-  </section>
-
-  <!-- ==================== SLIDE 06 ==================== -->
-  <section class="slide" id="slide-06">
-    <div class="slide-eyebrow">06 WHAT TRANSFERS &rsaquo; LESSONS FOR ANY RESEARCH TEAM</div>
-    <h1 class="slide-title">Four principles that transfer to any research organization</h1>
-
-    <div class="top-stats-grid">
-      <div class="top-stat-card">
-        <div class="top-stat-title">117 users &middot; 90 teams</div>
-        <div class="top-stat-sub">~400 syntheses (about 40 min each)</div>
-      </div>
-
-      <div class="top-stat-card">
-        <div class="top-stat-title">36-slide playbook</div>
-        <div class="top-stat-sub">Trained fellow researchers</div>
-      </div>
-
-      <div class="top-stat-card green">
-        <div class="top-stat-title">1B+ monthly users</div>
-        <div class="top-stat-sub">App with feature-level survey results</div>
-      </div>
-
-      <div class="top-stat-card">
-        <div class="top-stat-title">25 shared rules</div>
-        <div class="top-stat-sub">Senior writing &amp; stats standards</div>
-      </div>
-    </div>
-
-    <div class="portable-line">
-      <strong>Portable by design:</strong> Any research team can apply this approach with commercially available AI tools and standard survey platforms.
-    </div>
-
-    <div class="principles-table-wrap">
-      <table class="principles-table">
-        <thead>
-          <tr>
-            <th style="width: 28%;">Principle</th>
-            <th style="width: 36%;">In practice</th>
-            <th style="width: 36%;">Why it matters</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="principle-name">1. Automate the mechanics, keep people as ground truth</td>
-            <td>Let AI handle survey setup, testing, data cleaning, and archive searches around real participants.</td>
-            <td>Teams save days of manual work without the risks of synthetic users.</td>
-          </tr>
-          <tr>
-            <td class="principle-name">2. Build rigor into shared tools</td>
-            <td>Put evidence rules, survey best practices, and statistics standards into tools everyone uses.</td>
-            <td>Junior researchers, PMs, and designers get senior-level guardrails by default.</td>
-          </tr>
-          <tr>
-            <td class="principle-name">3. Keep researchers in the loop</td>
-            <td>Design self-serve tools to flag open questions and route teams to the right researcher.</td>
-            <td>Partners drove 2/3 of synthesis sessions and still routed open questions to researchers.</td>
-          </tr>
-          <tr>
-            <td class="principle-name">4. Unblock measurement directly</td>
-            <td>When a missing app change blocks research, ship it with engineering and privacy review.</td>
-            <td>Teams get the data they need without waiting quarters.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="callout-box callout-bottom">
-      <div><strong>Takeaway:</strong> Research teams can move at product speed and protect data quality when they pair mixed-methods rigor and team training with shared AI safeguards.</div>
-    </div>
-
-    <div class="slide-footer">UXR CASE STUDY &middot; AI WORKFLOWS</div>
-  </section>
+  </footer>
 
 </body>
 </html>

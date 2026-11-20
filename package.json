@@ -1,0 +1,10 @@
+{
+  "name": "jeremy-mendel-portfolio",
+  "version": "1.0.0",
+  "description": "UX Research Leader Portfolio Website — Jeremy Mendel, Ph.D.",
+  "scripts": {
+    "encrypt": "node encrypt.js",
+    "decrypt": "node decrypt.js"
+  },
+  "private": true
+}

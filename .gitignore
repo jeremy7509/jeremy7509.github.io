@@ -1,0 +1,8 @@
+# Unencrypted source case studies (keep local on your machine)
+case-studies-src/
+clear-writing-recommendations.md
+
+# Node / OS artifacts
+node_modules/
+.DS_Store
+Thumbs.db
